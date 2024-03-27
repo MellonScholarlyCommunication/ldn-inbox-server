@@ -1,36 +1,26 @@
-const { program } = require('commander');
-const { start_server , doFile } = require('mellon-server');
+const { start_server } = require('mellon-server');
 const Validator = require('jsonschema').Validator;
 const fs = require('fs');
 const md5 = require('md5');
 
-const HOST = 'localhost'
-const PORT = 8000;
-const INBOX_PATH = './inbox';
-const PUBLIC_PATH = './public';
-const JSON_SCHEMA_PATH = './config/offer_schema.json';
+let INBOX_PATH = './inbox';
+let JSON_SCHEMA = '';
 
-program
-  .option('--host <host>','host',HOST)
-  .option('--port <port>','port',PORT)
-  .option('--inbox <inbox>','inbox','INBOX_PATH')
-  .option('--public <public>','public',PUBLIC_PATH)
-  .option('--schema <schema>','json schema',JSON_SCHEMA_PATH);
+function handle_inbox(inbox, options) {
+}
 
-program.parse();
-
-const options = program.opts();
-
-const JSON_SCHEMA = JSON.parse(fs.readFileSync(options['schema'], { encoding: 'utf-8'}));
-
-start_server({
-    host: options['host'],
-    port: options['port'],
-    public: options['public'],
-    registry: [
-      { path : 'inbox/.*' , do: doInbox }
-    ]
-});
+function inbox_server(options) {
+    INBOX = options['inbox'];
+    JSON_SCHEMA = JSON.parse(fs.readFileSync(options['schema'], { encoding: 'utf-8'}));
+    start_server({
+        host: options['host'],
+        port: options['port'],
+        public: options['public'],
+        registry: [
+          { path : 'inbox/.*' , do: doInbox }
+        ]
+    });
+}
 
 function doInbox(req,res) {
     if (req.method !== 'POST') {
@@ -106,3 +96,4 @@ function checkBody(data) {
     }
 }
 
+module.exports = { inbox_server };
