@@ -7,9 +7,7 @@
   "repository": "https://github.com/MellonScholarlyCommunication/ldn-inbox-server",
   "scripts": {
     "server": "node bin/inbox-server.js start-server",
-    "demo-post": "curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/offer.jsonld' http://localhost:8000/inbox/",
-    "demo-orch": "npx orch --info --keep --in inbox --out outbox rules/demo.n3",
-    "demo-pol": "npx pol --info --keep --in outbox"
+    "demo-post": "curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/offer.jsonld' http://localhost:8000/inbox/"
   },
   "bin": "./bin/inbox-server.js",
   "keywords": [
