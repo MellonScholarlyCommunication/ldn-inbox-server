@@ -6,9 +6,6 @@ const md5 = require('md5');
 let INBOX_PATH = './inbox';
 let JSON_SCHEMA = '';
 
-function handle_inbox(inbox, options) {
-}
-
 function inbox_server(options) {
     INBOX = options['inbox'];
     JSON_SCHEMA = JSON.parse(fs.readFileSync(options['schema'], { encoding: 'utf-8'}));

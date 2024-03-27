@@ -7,7 +7,9 @@
   "repository": "https://github.com/MellonScholarlyCommunication/memento-server",
   "scripts": {
     "server": "node bin/inbox-server.js start-server",
-    "demo-post": "curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/offer.jsonld' http://localhost:8000/inbox/"
+    "demo-post": "curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/offer.jsonld' http://localhost:8000/inbox/",
+    "demo-orch": "npx orch --info --keep --in inbox --out outbox rules/demo.n3",
+    "demo-pol": "npx pol --info --keep --in outbox"
   },
   "bin": "./bin/inbox-server.js",
   "keywords": [
@@ -18,6 +20,7 @@
   "dependencies": {
     "commander": "^12.0.0",
     "jsonschema": "^1.4.1",
+    "koreografeye": "^0.4.9",
     "md5": "^2.3.0",
     "mellon-server": "^1.0.2",
     "uuid": "^9.0.1"

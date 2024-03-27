@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
-const { inbox_server, handle_inbox } = require('../index.js');
+const { inbox_server } = require('../index.js');
 
 const HOST = 'localhost'
 const PORT = 8000;
@@ -24,12 +24,5 @@ program
   .action( (options) => {
     inbox_server(options);
   });
-
-program
-  .command('process-inbox')
-  .option('--inbox <inbox>','inbox',INBOX_PATH)
-  .action( (options) => {
-    handle_inbox(options['inbox'],options);
-  }); 
 
 program.parse();
