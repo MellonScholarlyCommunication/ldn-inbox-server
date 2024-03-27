@@ -1,7 +1,6 @@
 const fs = require('fs');
 
 async function handleInbox(path,options) {
-
     fs.readdir(path, (err,files) => {
         files.forEach( (file) => {
             const fullPath = `${path}/${file}`;
