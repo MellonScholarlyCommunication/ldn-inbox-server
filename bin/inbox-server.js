@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
-const { inbox_server } = require('../index.js');
+const { inbox_server, handle_inbox } = require('../index.js');
 
 const HOST = 'localhost'
 const PORT = 8000;
@@ -23,6 +23,14 @@ program
   .option('--schema <schema>','json schema',JSON_SCHEMA_PATH)
   .action( (options) => {
     inbox_server(options);
+  });
+
+program
+  .command('handle-inbox')
+  .option('--inbox <inbox>','inbox',INBOX_PATH)
+  .argument('<handler>','handler of inbox')
+  .action( async(handler,options) => {
+    await handle_inbox(options['inbox'],handler,options);
   });
 
 program.parse();

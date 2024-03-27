@@ -19,6 +19,12 @@ function inbox_server(options) {
     });
 }
 
+async function handle_inbox(path,handler,options) {
+    delete require.cache[handler];
+    const func = require(handler).handleInbox;
+    await func(path,options);
+}
+
 function doInbox(req,res) {
     if (req.method !== 'POST') {
         res.writeHead(403);
@@ -93,4 +99,4 @@ function checkBody(data) {
     }
 }
 
-module.exports = { inbox_server };
+module.exports = { inbox_server , handle_inbox };
