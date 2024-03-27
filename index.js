@@ -27,14 +27,16 @@ start_server({
     host: options['host'],
     port: options['port'],
     public: options['public'],
-    registry: {
-        'inbox/' : doInbox
-    }
+    registry: [
+      { path : 'inbox/.*' , do: doInbox }
+    ]
 });
 
 function doInbox(req,res) {
     if (req.method !== 'POST') {
-        return doFile('public/api/register/index.html',req,res);
+        res.writeHead(403);
+        res.end('Forbidden');
+        return;
     }
 
     const headers = req.headers;
@@ -57,11 +59,11 @@ function doInbox(req,res) {
         postData += data;
     });
     req.on('end',() => {
-
         if (checkBody(postData)) {
             const id = storeBody(postData);
-            res.writeHead(202);
-            res.end(`Accepted ${id}`);
+            res.setHeader('Location',`${req.url}${id}`);
+            res.writeHead(201);
+            res.end(`Accepted ${req.url}${id}`);
         }
         else {
             res.writeHead(400);
@@ -79,7 +81,7 @@ function storeBody(data) {
             fs.writeFileSync(newpath,data);
         }
 
-        return id;
+        return `${id}.jsonld`;
     }
     catch (e) {
         return null;
