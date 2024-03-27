@@ -36,5 +36,5 @@
         "required": [ "id" ]
       } 
     },
-    "required": ["id","type", "actor", "object"]
+    "required": ["id", "type", "actor", "object"]
 }

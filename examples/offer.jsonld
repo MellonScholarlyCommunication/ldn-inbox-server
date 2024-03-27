@@ -5,11 +5,9 @@
     ], 
     "id": "urn:uuid:6E5FAF88-A7F1-47A4-B087-77345EBFF495",
     "type": "Offer",
-    "brol": "12343424",
     "actor": {
        "id": "https://acme.org/profile/card#us",
        "inbox": "https://acme.org/inbox/",
-       "name": "ACME Research Institute",
        "type": "Organization"
     },
     "object": {

@@ -9,6 +9,46 @@
     <body>
         <main class="container">
             <h1>TimeMap Server</h1>
+
+            <h2>API</h2>
+
+            <h3>/inbox/</h3>
+
+            <article>
+                An <a href="https://www.eventnotifications.net">Event Notifications</a>
+                LDN Inbox accepting Offers to create a <a href="https://datatracker.ietf.org/doc/html/rfc7089">Memento</a>.
+
+                The results of this process will send to the <tt>inbox</tt> of the <tt>actor</tt>.
+
+                <p>
+                    <h4>Example</h4>
+                    <pre>
+curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/offer.jsonld' http://localhost:8000/inbox/
+                    </pre>
+
+                    where <tt>offer.jsonld</tt>:
+
+                    <pre>
+{ 
+    "@context": [ 
+        "https://www.w3.org/ns/activitystreams" ,
+        {"schema": "https://schema.org/"}
+    ], 
+    "id": "urn:uuid:6E5FAF88-A7F1-47A4-B087-77345EBFF495",
+    "type": "Offer",
+    "actor": {
+        "id": "https://acme.org/profile/card#us",
+        "inbox": "https://acme.org/inbox/",
+        "type": "Organization"
+    },
+    "object": {
+        "id": "http://acme.org/artifacts/alice/data-set-2022-01-19.zip",
+        "type": [ "Document" , "schema:Dataset" ]
+    }
+}
+                    </pre>
+                </p>
+            </article>
           </main>
     </body>
 </html>
