@@ -1,10 +1,10 @@
 {
-  "name": "inbox-server",
+  "name": "ldn-inbox-server",
   "version": "1.0.0",
   "description": "A demonstration Event Notifications Inbox server",
   "main": "index.js",
   "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",
-  "repository": "https://github.com/MellonScholarlyCommunication/memento-server",
+  "repository": "https://github.com/MellonScholarlyCommunication/ldn-inbox-server",
   "scripts": {
     "server": "node bin/inbox-server.js start-server",
     "demo-post": "curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/offer.jsonld' http://localhost:8000/inbox/",

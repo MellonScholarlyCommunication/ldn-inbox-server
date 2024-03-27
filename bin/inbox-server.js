@@ -10,7 +10,7 @@ const INBOX_PATH = './inbox';
 const JSON_SCHEMA_PATH = './config/offer_schema.json';
 
 program
-  .name('inbox-server')
+  .name('lnd-inbox-server')
   .version('1.0.0')
   .description('A demonstration Event Notifications Inbox server');
 
