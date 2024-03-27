@@ -1,0 +1,17 @@
+{
+  "name": "memento-server",
+  "version": "1.0.0",
+  "description": "A demonstration Memento TimeMap server",
+  "main": "index.js",
+  "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",
+  "repository": "https://github.com/MellonScholarlyCommunication/memento-server",
+  "keywords": [
+    "memento",
+    "http",
+    "archive"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "mellon-server": "^1.0.0"
+  }
+}
