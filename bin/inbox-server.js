@@ -21,6 +21,7 @@ program
   .option('--inbox <inbox>','inbox',INBOX_PATH)
   .option('--public <public>','public',PUBLIC_PATH)
   .option('--schema <schema>','json schema',JSON_SCHEMA_PATH)
+  .option('--registry <registry>','registry',null)
   .action( (options) => {
     inbox_server(options);
   });

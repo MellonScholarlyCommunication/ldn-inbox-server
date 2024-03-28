@@ -9,13 +9,19 @@ let JSON_SCHEMA = '';
 function inbox_server(options) {
     INBOX = options['inbox'];
     JSON_SCHEMA = JSON.parse(fs.readFileSync(options['schema'], { encoding: 'utf-8'}));
+    let registry = [{ path : 'inbox/.*' , do: doInbox }];
+
+    if (options['registry']) {
+        const path = options['registry'];
+        const registry2 = JSON.parse(fs.readFileSync(path,{ encoding: 'utf-8'}));
+        registry = registry.concat(registry2);
+    }
+
     start_server({
         host: options['host'],
         port: options['port'],
         public: options['public'],
-        registry: [
-          { path : 'inbox/.*' , do: doInbox }
-        ]
+        registry: registry
     });
 }
 

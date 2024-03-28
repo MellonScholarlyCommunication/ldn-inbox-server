@@ -6,8 +6,9 @@
   "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",
   "repository": "https://github.com/MellonScholarlyCommunication/ldn-inbox-server",
   "scripts": {
-    "server": "node bin/inbox-server.js start-server",
-    "demo-post": "curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/offer.jsonld' http://localhost:8000/inbox/"
+    "server": "npx ldn-inbox-server start-server",
+    "demo-post": "curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/offer.jsonld' http://localhost:8000/inbox/",
+    "demo-handler": "npx ldn-inbox-server handle-inbox --inbox ./inbox ./handler/demo.js"
   },
   "bin": "./bin/inbox-server.js",
   "keywords": [
@@ -19,7 +20,7 @@
     "commander": "^12.0.0",
     "jsonschema": "^1.4.1",
     "md5": "^2.3.0",
-    "mellon-server": "^1.0.2",
+    "mellon-server": "^1.0.3",
     "uuid": "^9.0.1"
   }
 }
