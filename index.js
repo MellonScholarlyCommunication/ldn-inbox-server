@@ -2,6 +2,8 @@ const { start_server } = require('mellon-server');
 const Validator = require('jsonschema').Validator;
 const fs = require('fs');
 const md5 = require('md5');
+const { v4: uuidv4 } = require('uuid');
+const fetch = require('node-fetch');
 
 let INBOX_PATH = './inbox';
 let JSON_SCHEMA = '';
@@ -105,4 +107,31 @@ function checkBody(data) {
     }
 }
 
-module.exports = { inbox_server , handle_inbox };
+async function sendNotification(url,json, options) {
+    if (!json['@context']) {
+        json['@context'] = "https://www.w3.org/ns/activitystreams";
+    }
+
+    if (!json['id']) {
+        json['id'] = 'urn:uuid:' + uuidv4();
+    }
+
+    let fetcher = options['fetch'] ?? fetch;
+
+    const response = await fetcher(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(json)
+    });
+
+    if (! response.ok) {
+        throw Error(`failed to POST to ${url}`);
+    }
+
+    return true;
+}
+
+module.exports = { inbox_server , handle_inbox , sendNotification };
