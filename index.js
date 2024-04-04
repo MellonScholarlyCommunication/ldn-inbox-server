@@ -55,9 +55,9 @@ function doInbox(req,res) {
 
     const headers = req.headers;
 
-    if (headers && (
-        headers['content-type'] === 'application/ld+json' ||
-        headers['content-type'] === 'application/json'
+    if (headers && headers['content-type'] && (
+        headers['content-type'].startsWith('application/ld+json') ||
+        headers['content-type'].startsWith('application/json')
         )
     ) {
         // We are ok
