@@ -4,9 +4,21 @@ const fs = require('fs');
 const md5 = require('md5');
 const { v4: uuidv4 } = require('uuid');
 const fetch = require('node-fetch');
+const log4js = require('log4js');
+const logger = log4js.getLogger();
 
 let INBOX_PATH = './inbox';
 let JSON_SCHEMA = '';
+
+log4js.configure({
+    appenders: {
+      stderr: { type: 'stderr' }
+    },
+    categories: {
+      default: { appenders: ['stderr'], level: process.env.LOG4JS ?? 'INFO' }
+    }
+});
+
 
 function inbox_server(options) {
     INBOX = options['inbox'];
@@ -35,6 +47,7 @@ async function handle_inbox(path,handler,options) {
 
 function doInbox(req,res) {
     if (req.method !== 'POST') {
+        logger.error(`tried method ${req.method} on inbox : forbidden`);
         res.writeHead(403);
         res.end('Forbidden');
         return;
@@ -50,6 +63,7 @@ function doInbox(req,res) {
         // We are ok
     }
     else {
+        logger.error(`tried content-type ${headers['content-type']} : unknown`);
         res.writeHead(400);
         res.end(`Need a Content-Type 'application/ld+json'`);
         return;
@@ -60,13 +74,16 @@ function doInbox(req,res) {
         postData += data;
     });
     req.on('end',() => {
+        logger.debug(postData);
         if (checkBody(postData)) {
             const id = storeBody(postData);
+            logger.info(`accepted ${req.url}${id}`);
             res.setHeader('Location',`${req.url}${id}`);
             res.writeHead(201);
             res.end(`Accepted ${req.url}${id}`);
         }
         else {
+            logger.error(`not-accepted post`);
             res.writeHead(400);
             res.end(`Looks like a weird POST to me...`);
         }
@@ -79,7 +96,11 @@ function storeBody(data) {
         const newpath = `${INBOX_PATH}/${id}.jsonld`;
 
         if (! fs.existsSync(newpath)) {
+            logger.info(`storing ${newpath}`);
             fs.writeFileSync(newpath,data);
+        }
+        else {
+            logger.info(`skiiping ${newpath} : already exists`);
         }
 
         return `${id}.jsonld`;
