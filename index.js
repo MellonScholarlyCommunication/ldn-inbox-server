@@ -21,7 +21,7 @@ log4js.configure({
 
 
 function inbox_server(options) {
-    INBOX = options['inbox'];
+    INBOX_PATH = options['inbox'];
     JSON_SCHEMA = JSON.parse(fs.readFileSync(options['schema'], { encoding: 'utf-8'}));
     let registry = [{ path : 'inbox/.*' , do: doInbox }];
 
