@@ -11,7 +11,7 @@ const JSON_SCHEMA_PATH = './config/offer_schema.json';
 
 program
   .name('lnd-inbox-server')
-  .version('1.0.5')
+  .version('1.0.6')
   .description('A demonstration Event Notifications Inbox server');
 
 program

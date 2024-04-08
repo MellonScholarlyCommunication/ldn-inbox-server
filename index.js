@@ -19,7 +19,6 @@ log4js.configure({
     }
 });
 
-
 function inbox_server(options) {
     INBOX_PATH = options['inbox'];
     JSON_SCHEMA = JSON.parse(fs.readFileSync(options['schema'], { encoding: 'utf-8'}));
