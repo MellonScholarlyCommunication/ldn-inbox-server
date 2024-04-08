@@ -15,7 +15,13 @@ function inbox_server(options) {
 
     if (options['registry']) {
         const path = options['registry'];
-        const registry2 = JSON.parse(fs.readFileSync(path,{ encoding: 'utf-8'}));
+        let registry2;
+        if (typeof path === 'string' || path instanceof String) {
+            registry2 = JSON.parse(fs.readFileSync(path,{ encoding: 'utf-8'}));
+        }
+        else {
+            registry2 = path;
+        }
         registry = registry.concat(registry2);
     }
 
