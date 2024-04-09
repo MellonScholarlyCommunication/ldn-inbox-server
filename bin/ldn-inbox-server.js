@@ -3,6 +3,7 @@
 const { program } = require('commander');
 const { inbox_server } = require('../lib/index');
 const { handle_inbox } = require('../lib/inbox-handler');
+const { handle_outbox } = require('../lib/outbox-handler');
 require('dotenv').config();
 
 const HOST = process.env.LDN_SERVER_HOST ?? 'localhost';
@@ -10,6 +11,7 @@ const PORT = process.env.LDN_SERVER_PORT ?? 8000;
 const INBOX_URL = process.env.LDN_SERVER_INBOX_URL ?? 'inbox/';
 const PUBLIC_PATH = process.env.LDN_SERVER_PUBLIC_PATH ?? './public';
 const INBOX_PATH = process.env.LDN_SERVER_INBOX_PATH ?? './inbox';
+const OUTBOX_PATH = process.env.LDN_SERVER_OUTBOX_PATH ?? './outbox';
 const JSON_SCHEMA_PATH = process.env.LDN_SERVER_JSON_SCHEMA ?? './config/notification_schema.json';
 
 program
@@ -37,6 +39,15 @@ program
   .option('--notification_handler <handler>','notification handler')
   .action( async(options) => {
     await handle_inbox(options['inbox'],options);
+  });
+
+program
+  .command('handle-outbox')
+  .option('--outbox <outbox>','outbox',OUTBOX_PATH)
+  .option('--outbox_handler <handler>','inbox handler')
+  .option('--notification_handler <handler>','notification handler')
+  .action( async(options) => {
+   await handle_outbox(options['outbox'],options);
   });
 
 program.parse();

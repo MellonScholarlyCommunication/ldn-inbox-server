@@ -1,5 +1,5 @@
-async function handleNotification(path,options) {
+async function handle(path,options) {
     console.log(`demo handler for ${path}`);
 }
 
-module.exports = { handleNotification };
+module.exports = { handle };

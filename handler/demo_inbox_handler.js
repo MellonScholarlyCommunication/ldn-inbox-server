@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-async function handleInbox(path,options) {
+async function handle(path,options) {
     console.log(`handleInbox(${path},..)`);
     fs.readdir(path, (err,files) => {
         files.forEach( (file) => {
@@ -22,4 +22,4 @@ async function handleInbox(path,options) {
     });
 }
 
-module.exports = { handleInbox };
+module.exports = { handle };

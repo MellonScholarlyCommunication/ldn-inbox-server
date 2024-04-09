@@ -13,5 +13,10 @@
     "object": {
        "id": "http://acme.org/artifacts/alice/data-set-2022-01-19.zip",
        "type": [ "Document" , "schema:Dataset" ]
+    },
+    "target": {
+      "id": "http://localhost:8000",
+      "type": "Service",
+      "inbox": "http://localhost:8000/inbox/"
     }
  }
