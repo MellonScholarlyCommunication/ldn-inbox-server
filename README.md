@@ -30,10 +30,16 @@ Send a demonstration Event Notifications message:
 curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/offer.jsonld' http://localhost:8000/inbox/
 ```
 
-Start an inbox handler: 
+Start an inbox handler with a demo handler (that creates an `Accept` message in the `./outbox`).
 
 ```
-npx ldn-inbox-server handle-inbox 
+npx ldn-inbox-server handle-inbox -hn ./handler/demo_notification_handler.js
+```
+
+Send the notifications in the outbox
+
+```
+npx ldn-inbox-server handle-outbox
 ```
 
 ## Environment
