@@ -11,6 +11,7 @@ const PORT = process.env.LDN_SERVER_PORT ?? 8000;
 const INBOX_URL = process.env.LDN_SERVER_INBOX_URL ?? 'inbox/';
 const PUBLIC_PATH = process.env.LDN_SERVER_PUBLIC_PATH ?? './public';
 const INBOX_PATH = process.env.LDN_SERVER_INBOX_PATH ?? './inbox';
+const ERROR_PATH = process.env.LDN_SERVER_ERROR_PATH ?? './error';
 const OUTBOX_PATH = process.env.LDN_SERVER_OUTBOX_PATH ?? './outbox';
 const JSON_SCHEMA_PATH = process.env.LDN_SERVER_JSON_SCHEMA ?? './config/notification_schema.json';
 
@@ -35,8 +36,10 @@ program
 program
   .command('handle-inbox')
   .option('--inbox <inbox>','inbox',INBOX_PATH)
-  .option('--inbox_handler <handler>','inbox handler')
-  .option('--notification_handler <handler>','notification handler')
+  .option('--outbox <outbox>','outbox',OUTBOX_PATH)
+  .option('--error <errbox>','errbox',ERROR_PATH)
+  .option('-hi,--inbox_handler <handler>','inbox handler')
+  .option('-hn,--notification_handler <handler>','notification handler')
   .action( async(options) => {
     await handle_inbox(options['inbox'],options);
   });
@@ -44,8 +47,9 @@ program
 program
   .command('handle-outbox')
   .option('--outbox <outbox>','outbox',OUTBOX_PATH)
-  .option('--outbox_handler <handler>','inbox handler')
-  .option('--notification_handler <handler>','notification handler')
+  .option('--error <errbox>','errbox',ERROR_PATH)
+  .option('-ho,--outbox_handler <handler>','inbox handler')
+  .option('-hn,--notification_handler <handler>','notification handler')
   .action( async(options) => {
    await handle_outbox(options['outbox'],options);
   });
