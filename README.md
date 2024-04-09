@@ -16,7 +16,7 @@ Create required directories
 mkdir config inbox public
 ```
 
-Copy an example JSON Schema as `config/offer_schema.json` from this project.
+Copy an example JSON Schema as `config/notification_schema.json` from this project.
 
 Start the server:
 
