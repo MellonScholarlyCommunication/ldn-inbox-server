@@ -56,6 +56,24 @@ Server extensions are possible by providing custom inbox and notification handle
 npx ldn-inbox-server handle-inbox --inbox_handler ../handler/demo_inbox_handler --notification_handler ../handler/demo_notification_handler.js
 ```
 
+Or, in JavaScript:
+
+```
+const { handle_inbox } = require('ldn-inbox-handler');
+
+main();
+
+async function main() {
+    await handle_inbox('./inbox', {
+        'notification_handler': myHander
+    });
+}
+
+async function myHandlder(notifiction,options) {
+    // ... do your thing
+}
+```
+
 ## See also
 
 - [mellon-server](https://www.npmjs.com/package/mellon-server)
