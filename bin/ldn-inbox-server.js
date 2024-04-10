@@ -7,6 +7,7 @@ require('dotenv').config();
 
 const HOST = process.env.LDN_SERVER_HOST ?? 'localhost';
 const PORT = process.env.LDN_SERVER_PORT ?? 8000;
+const INBOX_GLOB = process.env.LDN_SERVER_INBOX_GLOB ?? "^.*\\.jsonld$";
 const INBOX_URL = process.env.LDN_SERVER_INBOX_URL ?? 'inbox/';
 const PUBLIC_PATH = process.env.LDN_SERVER_PUBLIC_PATH ?? './public';
 const INBOX_PATH = process.env.LDN_SERVER_INBOX_PATH ?? './inbox';
@@ -37,6 +38,7 @@ program
   .option('--inbox <inbox>','inbox',INBOX_PATH)
   .option('--outbox <outbox>','outbox',OUTBOX_PATH)
   .option('--error <errbox>','errbox',ERROR_PATH)
+  .option('--glob <glob>','files to process in inbox',INBOX_GLOB)
   .option('-hi,--inbox_handler <handler>','inbox handler')
   .option('-hn,--notification_handler <handler>','notification handler')
   .argument('<box>','box to process')
