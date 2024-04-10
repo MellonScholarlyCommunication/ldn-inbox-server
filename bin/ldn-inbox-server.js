@@ -17,7 +17,7 @@ const JSON_SCHEMA_PATH = process.env.LDN_SERVER_JSON_SCHEMA ?? './config/notific
 
 program
   .name('lnd-inbox-server')
-  .version('1.1.2')
+  .version('1.1.3')
   .description('A demonstration Event Notifications Inbox server');
 
 program
