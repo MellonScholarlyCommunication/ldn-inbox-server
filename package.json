@@ -8,8 +8,8 @@
   "scripts": {
     "server": "npx ldn-inbox-server start-server",
     "demo-post": "curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/offer.jsonld' http://localhost:8000/inbox/",
-    "handle-inbox": "npx ldn-inbox-server handle-inbox -hn ./handler/demo_notification_handler.js",
-    "handle-outbox": "npx ldn-inbox-server handle-outbox",
+    "handle-inbox": "npx ldn-inbox-server handler @inbox -hn ./handler/demo_notification_handler.js",
+    "handle-outbox": "npx ldn-inbox-server handler @outbox",
     "clean": "rm error/* inbox/* outbox/*"
   },
   "bin": "./bin/ldn-inbox-server.js",

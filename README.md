@@ -33,13 +33,13 @@ curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/off
 Start an inbox handler with a demo handler (that creates an `Accept` message in the `./outbox`).
 
 ```
-npx ldn-inbox-server handle-inbox -hn ./handler/demo_notification_handler.js
+npx ldn-inbox-server handle @inbox -hn ./handler/demo_notification_handler.js
 ```
 
-Send the notifications in the outbox
+Send the notifications in the outbox:
 
 ```
-npx ldn-inbox-server handle-outbox
+npx ldn-inbox-server handle @outbox
 ```
 
 ## Environment
@@ -79,6 +79,17 @@ async function myHandlder(notifiction,options) {
     // ... do your thing
 }
 ```
+
+## Hints
+
+A handler can be started on any directory. E.g. a worlflow might be:
+
+- have an "inbox" handler to validate incoming LDN messages
+- valid LDN messages will be saved into the "accepted" box
+- invalid LDN messages will be saved into the "error" box
+- have an "accepted" handler to process valid LDN messages
+- processed LDN messages will end up in the "outbox" box
+- invalid processing will be saved into the "error" box  
 
 ## See also
 

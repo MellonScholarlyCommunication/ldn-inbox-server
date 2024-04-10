@@ -6,12 +6,12 @@
     "id": "urn:uuid:6E5FAF88-A7F1-47A4-B087-77345EBFF495",
     "type": "Offer",
     "actor": {
-       "id": "https://acme.org/profile/card#us",
-       "inbox": "https://acme.org/inbox/",
+       "id": "https://acme.org.xyz/profile/card#us",
+       "inbox": "https://acme.org.xyz/inbox/",
        "type": "Organization"
     },
     "object": {
-       "id": "http://acme.org/artifacts/alice/data-set-2022-01-19.zip",
+       "id": "http://acme.org.xyz/artifacts/alice/data-set-2022-01-19.zip",
        "type": [ "Document" , "schema:Dataset" ]
     },
     "target": {

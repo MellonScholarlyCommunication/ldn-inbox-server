@@ -1,6 +1,6 @@
 const fs = require('fs');
 const logger = require('../lib/util.js').getLogger();
-const { moveToError } = require('../lib/util');
+const { moveTo } = require('../lib/util');
 
 async function handle(path,options) {
     logger.info(`parsing notification ${path}`);
@@ -38,7 +38,7 @@ async function handle(path,options) {
     catch(e) {
         logger.error(`failed to process ${path}`);
         logger.debug(e);
-        moveToError(path);
+        moveTo(path,'@error');
     }
 }
 

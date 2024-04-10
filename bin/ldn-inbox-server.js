@@ -2,8 +2,7 @@
 
 const { program } = require('commander');
 const { inbox_server } = require('../lib/index');
-const { handle_inbox } = require('../lib/inbox-handler');
-const { handle_outbox } = require('../lib/outbox-handler');
+const { handle_inbox , defaultSendNotificationHandler } = require('../lib/handler');
 require('dotenv').config();
 
 const HOST = process.env.LDN_SERVER_HOST ?? 'localhost';
@@ -34,24 +33,25 @@ program
   });
 
 program
-  .command('handle-inbox')
+  .command('handler')
   .option('--inbox <inbox>','inbox',INBOX_PATH)
   .option('--outbox <outbox>','outbox',OUTBOX_PATH)
   .option('--error <errbox>','errbox',ERROR_PATH)
   .option('-hi,--inbox_handler <handler>','inbox handler')
   .option('-hn,--notification_handler <handler>','notification handler')
-  .action( async(options) => {
-    await handle_inbox(options['inbox'],options);
+  .argument('<box>','box to process')
+  .action( async(box,options) => {
+    switch (box) {
+      case '@inbox':
+        box = INBOX_PATH;
+        break;
+      case '@outbox':
+        box = OUTBOX_PATH;
+        options['notification_handler'] =
+           options['notification_handler'] ?? defaultSendNotificationHandler;
+        break;
+    }
+    await handle_inbox(box,options);
   });
 
-program
-  .command('handle-outbox')
-  .option('--outbox <outbox>','outbox',OUTBOX_PATH)
-  .option('--error <errbox>','errbox',ERROR_PATH)
-  .option('-ho,--outbox_handler <handler>','inbox handler')
-  .option('-hn,--notification_handler <handler>','notification handler')
-  .action( async(options) => {
-   await handle_outbox(options['outbox'],options);
-  });
-
-program.parse();
+  program.parse();
