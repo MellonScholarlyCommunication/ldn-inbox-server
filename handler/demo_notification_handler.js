@@ -4,7 +4,7 @@ const { moveTo } = require('../lib/util');
 
 async function handle(path,options) {
     logger.info(`parsing notification ${path}`);
-
+throw Error('eeee');
     try {
         const json = JSON.parse(fs.readFileSync(path, { encoding: 'utf-8'}));
         
