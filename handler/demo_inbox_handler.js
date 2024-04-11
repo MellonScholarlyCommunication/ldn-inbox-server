@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+// Demonstration of an inbox handler (don't use it the one in lib/handler.js 
+// is much more mature)
 async function handle({path,options}) {
     console.log(`handleInbox(${path},..)`);
     fs.readdir(path, (err,files) => {

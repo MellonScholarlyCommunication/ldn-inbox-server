@@ -10,6 +10,7 @@
     "demo-post": "curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/offer.jsonld' http://localhost:8000/inbox/",
     "handle-inbox": "npx ldn-inbox-server handler @inbox -hn ./handler/demo_notification_handler.js",
     "handle-outbox": "npx ldn-inbox-server handler @outbox",
+    "handle-eventlog": "npx ldn-inbox-server handler @inbox -hn handler/eventlog_notification_handler.js",
     "clean": "rm error/* inbox/* outbox/*"
   },
   "bin": "./bin/ldn-inbox-server.js",

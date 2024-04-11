@@ -39,6 +39,7 @@ program
   .command('handler')
   .option('--inbox <inbox>','inbox',INBOX_PATH)
   .option('--outbox <outbox>','outbox',OUTBOX_PATH)
+  .option('--public <public>','public',PUBLIC_PATH)
   .option('--error <errbox>','errbox',ERROR_PATH)
   .option('--loop <seconds>', 'run in a loop',0)
   .option('--batch_size <num>','batch size to process',INBOX_BATCH_SIZE)
