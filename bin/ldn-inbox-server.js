@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const path = require('path');
 const { program } = require('commander');
 const { inbox_server } = require('../lib/index');
 const { handle_inbox , defaultSendNotificationHandler } = require('../lib/handler');
@@ -18,7 +19,7 @@ const JSON_SCHEMA_PATH = process.env.LDN_SERVER_JSON_SCHEMA ?? './config/notific
 
 program
   .name('lnd-inbox-server')
-  .version('1.2.0')
+  .version('1.2.1')
   .description('A demonstration Event Notifications Inbox server');
 
 program
@@ -53,7 +54,7 @@ program
       case '@outbox':
         box = OUTBOX_PATH;
         options['notification_handler'] =
-           options['notification_handler'] ?? defaultSendNotificationHandler;
+           options['notification_handler'] ?? path.join(__dirname,'..','lib','sendNotificationHandler.js');
         break;
     }
     if (options['loop']) {
