@@ -1,6 +1,6 @@
 {
   "name": "ldn-inbox-server",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "description": "A demonstration Event Notifications Inbox server",
   "main": "lib/index.js",
   "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",
@@ -24,8 +24,9 @@
     "exponential-backoff": "^3.1.1",
     "jsonschema": "^1.4.1",
     "md5": "^2.3.0",
-    "mellon-server": "^1.0.3",
+    "mellon-server": "^1.0.4",
     "node-fetch": "1.7.3",
+    "piscina": "^4.4.0",
     "proper-lockfile": "^4.1.2",
     "uuid": "^9.0.1"
   }

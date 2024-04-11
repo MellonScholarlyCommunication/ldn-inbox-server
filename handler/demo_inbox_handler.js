@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-async function handle(path,options) {
+async function handle({path,options}) {
     console.log(`handleInbox(${path},..)`);
     fs.readdir(path, (err,files) => {
         files.forEach( (file) => {

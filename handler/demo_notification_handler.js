@@ -1,8 +1,7 @@
 const fs = require('fs');
 const logger = require('../lib/util.js').getLogger();
-const { moveTo } = require('../lib/util');
 
-async function handle(path,options) {
+async function handle({path,options}) {
     logger.info(`parsing notification ${path}`);
     
     try {
@@ -34,11 +33,12 @@ async function handle(path,options) {
                 inbox: actor_inbox
             }
         },null,2));
+        return { path,options, success: true };
     }
     catch(e) {
         logger.error(`failed to process ${path}`);
         logger.debug(e);
-        moveTo(path,'@error');
+        return { path,options, success: false };
     }
 }
 

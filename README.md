@@ -59,7 +59,7 @@ npx ldn-inbox-server handle @outbox
 Server extensions are possible by providing custom inbox and notification handlers. E.g.
 
 ```
-npx ldn-inbox-server handle-inbox --inbox_handler ../handler/demo_inbox_handler --notification_handler ../handler/demo_notification_handler.js
+npx ldn-inbox-server handle-inbox -hn handler/demo_notification_handler.js
 ```
 
 Or, in JavaScript:
@@ -71,18 +71,26 @@ main();
 
 async function main() {
     await handle_inbox('./inbox', {
-        'notification_handler': myHander
+        'notification_handler': 'handler/worker.js' 
     });
 }
+```
 
-async function myHandlder(notifiction,options) {
-    // ... do your thing
+with `worker.js` :
+
+```
+async function handle({path,options}) {
+    //...
+
+    return { path, options, success: true };
 }
+
+module.exports = { handle };
 ```
 
 ## Hints
 
-A handler can be started on any directory. E.g. a worlflow might be:
+A handler can be started on any directory. E.g. a workflow might be:
 
 - have an "inbox" handler to validate incoming LDN messages
 - valid LDN messages will be saved into the "accepted" box
