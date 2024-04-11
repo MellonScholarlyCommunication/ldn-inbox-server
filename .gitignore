@@ -3,3 +3,4 @@ inbox/**
 outbox/**
 error/**
 public/events/**
+.env

@@ -47,8 +47,9 @@ async function updateEventLog({path,options}) {
     logger.info(`updating eventlog for ${path}`);
 
     try {
+        const baseUrl = process.env.LDN_SERVER_BASEURL ?? "";
         const fileName = path.split('/').pop();
-        const entry = `log/${fileName}`;
+        const entry = `${baseUrl}/${EVENT_DIR}/log/${fileName}`;
 
         const eventLog = fsPath.join(options['public'],EVENT_DIR,EVENT_LOG);
 
