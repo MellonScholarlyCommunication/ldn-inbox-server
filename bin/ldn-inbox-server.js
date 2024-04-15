@@ -11,11 +11,13 @@ const PORT = process.env.LDN_SERVER_PORT ?? 8000;
 const INBOX_GLOB = process.env.LDN_SERVER_INBOX_GLOB ?? "^.*\\.jsonld$";
 const INBOX_BATCH_SIZE = process.env.LDN_SERVER_INBOX_BATH_SIZE ?? 5;
 const INBOX_URL = process.env.LDN_SERVER_INBOX_URL ?? 'inbox/';
+const INBOX_BASE_URL = process.env.LDN_SERVER_BASEURL ?? 'http://localhost:8000';
 const PUBLIC_PATH = process.env.LDN_SERVER_PUBLIC_PATH ?? './public';
 const INBOX_PATH = process.env.LDN_SERVER_INBOX_PATH ?? './inbox';
 const ERROR_PATH = process.env.LDN_SERVER_ERROR_PATH ?? './error';
 const OUTBOX_PATH = process.env.LDN_SERVER_OUTBOX_PATH ?? './outbox';
 const JSON_SCHEMA_PATH = process.env.LDN_SERVER_JSON_SCHEMA ?? './config/notification_schema.json';
+const HAS_PUBLIC = process.env.LDN_SERVER_HAS_PUBLIC_INBOX ?? 0;
 
 program
   .name('lnd-inbox-server')
@@ -26,11 +28,13 @@ program
   .command('start-server')
   .option('--host <host>','host',HOST)
   .option('--port <port>','port',PORT)
-  .option('--url <url>','url',INBOX_URL)
+  .option('--url <path>','path',INBOX_URL)
+  .option('--base <url>','base url',INBOX_BASE_URL)
   .option('--inbox <inbox>','inbox',INBOX_PATH)
   .option('--public <public>','public',PUBLIC_PATH)
   .option('--schema <schema>','json schema',JSON_SCHEMA_PATH)
   .option('--registry <registry>','registry',null)
+  .option('--inbox-public','public readable inbox',HAS_PUBLIC)
   .action( (options) => {
     inbox_server(options);
   });

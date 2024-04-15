@@ -45,14 +45,17 @@ npx ldn-inbox-server handle @outbox
 ## Environment
 
 - `LOG4JS` : log4js logging level
-- `LDN_SERVER_HOST` : default LDN inbox host
-- `LDN_SERVER_PORT` : default LDN inbox port
-- `LDN_SERVER_INBOX_URL` : default LDN inbox url (path)
-- `LDN_SERVER_INBOX_PATH` : default LDN inbox path
-- `LDN_SERVER_ERROR_PATH` : default LDN error path
-- `LDN_SERVER_OUTBOX_PATH` : default LDN outbox path
-- `LDN_SERVER_PUBLIC_PATH` : default public (HTML) path
-- `LDN_SERVER_JSON_SCHEMA` : default notification JSON validation schema
+- `LDN_SERVER_HOST` : LDN inbox host
+- `LDN_SERVER_PORT` : LDN inbox port
+- `LDN_SERVER_INBOX_URL` : LDN inbox url (path)
+- `LDN_SERVER_INBOX_PATH` : LDN inbox path
+- `LDN_SERVER_ERROR_PATH` : LDN error path
+- `LDN_SERVER_OUTBOX_PATH` : LDN outbox path
+- `LDN_SERVER_PUBLIC_PATH` : public (HTML) path
+- `LDN_SERVER_JSON_SCHEMA` : notification JSON validation schema
+- `LDN_SERVER_BASEURL` : baseurl of the LDN inbox server
+- `LDN_SERVER_INBOX_GLOB` : glob of files to process in inbox directory
+- `LDN_SERVER_HAS_PUBLIC_INBOX` : if true, then public read access is allowed on inbox
 
 ## Extend
 
