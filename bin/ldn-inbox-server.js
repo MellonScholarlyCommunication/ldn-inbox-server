@@ -21,7 +21,7 @@ const HAS_PUBLIC = process.env.LDN_SERVER_HAS_PUBLIC_INBOX ?? 0;
 
 program
   .name('lnd-inbox-server')
-  .version('1.2.1')
+  .version('1.2.2')
   .description('A demonstration Event Notifications Inbox server');
 
 program
