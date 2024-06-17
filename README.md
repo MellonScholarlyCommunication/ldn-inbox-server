@@ -109,6 +109,10 @@ A handler can be started on any directory. E.g. a workflow might be:
 - processed LDN messages will end up in the "outbox" box
 - invalid processing will be saved into the "error" box  
 
+## Multi handler
+
+A `handler/multi_notification_handler.js` is available to start multiple handler for each notification messages. The handlers to start are specified in a configuraton file that can be passed via the `config` parameter of an `handle_inbox`. In the commmand line tool `bin/ldn-inbox-server` the default location of such config file is `config/inbox_config.json` when processing an `@inbox`, and `config/outbox_config.json` when processing an `@outbox`.
+
 ## See also
 
 - [mellon-server](https://www.npmjs.com/package/mellon-server)
