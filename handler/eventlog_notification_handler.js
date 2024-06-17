@@ -1,4 +1,5 @@
 const fs = require('fs');
+const md5 = require('md5');
 const fsPath = require('path');
 const lockfile = require('proper-lockfile');
 const logger = require('../lib/util.js').getLogger();
@@ -10,7 +11,7 @@ async function handle({path,options}) {
     logger.info(`parsing notification ${path}`);
     
     try {
-        const json = JSON.parse(fs.readFileSync(path, { encoding: 'utf-8'}));
+        const json = fs.readFileSync(path, { encoding: 'utf-8'});
       
         const fileName = path.split('/').pop();
         const logDir = fsPath.join(options['public'],EVENT_DIR,'log');
@@ -22,7 +23,7 @@ async function handle({path,options}) {
   
         const outboxFile = fsPath.join(logDir,fileName);
 
-        fs.writeFileSync(outboxFile, JSON.stringify(json));
+        fs.writeFileSync(outboxFile, json);
 
         // Updating metadata file
         const metaFile = outboxFile + '.meta';
@@ -47,6 +48,9 @@ async function updateEventLog({path,options}) {
     logger.info(`updating eventlog for ${path}`);
 
     try {
+        const notification = fs.readFileSync(path, { encoding: 'utf-8'});
+        const notification_checksum = md5(notification);
+
         const baseUrl = process.env.LDN_SERVER_BASEURL ?? "";
         const fileName = path.split('/').pop();
         const entry = `${baseUrl}/${EVENT_DIR}/log/${fileName}`;
@@ -72,7 +76,14 @@ async function updateEventLog({path,options}) {
         else {
             logger.info(`updating ${eventLog}`);
 
-            json['member'].push(entry);
+            json['member'].push({
+                "id": entry ,
+                "checksum": {
+                    "type": "Checksum",
+                    "algorithm": "spdx:checksumAlgorithm_md5",
+                    "checksumValue": notification_checksum
+                }
+            });
 
             if (fs.existsSync(eventLog)) {
                 try {
