@@ -1,4 +1,5 @@
 const fs = require('fs');
+const md5 = require('md5');
 const logger = require('../lib/util.js').getLogger();
 
 async function handle({path,options}) {
@@ -7,17 +8,13 @@ async function handle({path,options}) {
     try {
         const json = JSON.parse(fs.readFileSync(path, { encoding: 'utf-8'}));
         
-        const outboxFile = options['outbox'] + '/' + path.split('/').pop();
-
         const id = json['id'];
         const object = json['object'];
         const actor_id = json['actor']['id'];
         const actor_type = json['actor']['type'];
         const actor_inbox = json['actor']['inbox'];
 
-        logger.info(`storing Accept to ${outboxFile}`);
-
-        fs.writeFileSync(outboxFile, JSON.stringify({
+        const data = JSON.stringify({
             type: 'Accept',
             actor: {
                 id: 'http://my.server' ,
@@ -32,7 +29,14 @@ async function handle({path,options}) {
                 type: actor_type ,
                 inbox: actor_inbox
             }
-        },null,2));
+        },null,4);
+
+        const outboxFile = options['outbox'] + '/' + md5(data) + '.jsonld';
+
+        logger.info(`storing Accept to ${outboxFile}`);
+
+        fs.writeFileSync(outboxFile,data);
+
         return { path, options, success: true };
     }
     catch(e) {

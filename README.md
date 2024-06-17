@@ -74,7 +74,14 @@ main();
 
 async function main() {
     await handle_inbox('./inbox', {
-        'notification_handler': 'handler/worker.js' 
+        'inbox': './inbox',
+        'outbox': './outbox',
+        'public': './public',
+        'error': './error',
+        'batch_size': 5,
+        'glob': '^.*\\.jsonld$',
+        'config': './config/inbox_config.json',
+        'notification_handler': 'handler/demo_notification_handler.js' 
     });
 }
 ```

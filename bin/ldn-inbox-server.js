@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const path = require('path');
+const fs = require('fs');
 const { program } = require('commander');
 const { inbox_server } = require('../lib/index');
-const { handle_inbox , defaultSendNotificationHandler } = require('../lib/handler');
+const { handle_inbox } = require('../lib/handler');
 require('dotenv').config();
 
 const HOST = process.env.LDN_SERVER_HOST ?? 'localhost';
@@ -17,7 +17,8 @@ const INBOX_PATH = process.env.LDN_SERVER_INBOX_PATH ?? './inbox';
 const ERROR_PATH = process.env.LDN_SERVER_ERROR_PATH ?? './error';
 const OUTBOX_PATH = process.env.LDN_SERVER_OUTBOX_PATH ?? './outbox';
 const JSON_SCHEMA_PATH = process.env.LDN_SERVER_JSON_SCHEMA ?? './config/notification_schema.json';
-const HANDLER_CONFIG = process.env.LDN_SERVER_HANDLER_CONFIG;
+const INBOX_CONFIG = process.env.LDN_SERVER_INBOX_CONFIG;
+const OUTBOX_CONFIG = process.env.LDN_SERVER_OUTBOX_CONFIG;
 const HAS_PUBLIC = process.env.LDN_SERVER_HAS_PUBLIC_INBOX ?? 0;
 
 program
@@ -49,7 +50,7 @@ program
   .option('--loop <seconds>', 'run in a loop',0)
   .option('--batch_size <num>','batch size to process',INBOX_BATCH_SIZE)
   .option('--glob <glob>','files to process in inbox',INBOX_GLOB)
-  .option('--config <path>','config file for handlers', HANDLER_CONFIG)
+  .option('--config <path>','config file for handlers')
   .option('-hi,--inbox_handler <handler>','inbox handler')
   .option('-hn,--notification_handler <handler>','notification handler')
   .argument('<box>','box to process')
@@ -57,9 +58,15 @@ program
     switch (box) {
       case '@inbox':
         box = INBOX_PATH;
+        if (!options['config'] && fs.existsSync(INBOX_CONFIG)) {
+            options['config'] = INBOX_CONFIG
+        }
         break;
       case '@outbox':
         box = OUTBOX_PATH;
+        if (!options['config'] && fs.existsSync(OUTBOX_CONFIG)) {
+          options['config'] = OUTBOX_CONFIG
+      }
         break;
     }
     if (options['loop']) {

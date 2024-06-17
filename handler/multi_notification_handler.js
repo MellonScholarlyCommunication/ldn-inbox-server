@@ -2,8 +2,8 @@ const { dynamic_handler , parseAsJSON } = require('../lib/util');
 const logger = require('../lib/util.js').getLogger();
 
 async function handle({path,options}) {
-    logger.info(options);
-    
+    let success = false;
+
     const config = parseAsJSON(options['config']);
 
     if (! config) {
@@ -40,13 +40,18 @@ async function handle({path,options}) {
             }
         }
 
-        return { path, options, success: true };
+        success = true;
     }
     catch (e) {
         logger.error(`failed to process ${path}`);
         logger.error(e);
-        return { path, options, success: false };
+
+        success = false;
     }
+
+    logger.info(`finished multi handler`);
+
+    return { path, options, success: success };
 }   
 
 module.exports = { handle };

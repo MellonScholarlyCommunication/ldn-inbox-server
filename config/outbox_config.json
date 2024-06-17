@@ -1,0 +1,9 @@
+{
+    "notification_handler": {
+        "multi": {
+            "handlers": [
+                "handler/eventlog_notification_handler.js"
+            ]
+        }
+    }
+}
