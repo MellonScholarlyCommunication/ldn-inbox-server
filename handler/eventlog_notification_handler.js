@@ -34,12 +34,12 @@ async function handle({path,options}) {
 
         await updateEventLog({path,options});
 
-        return { path,options, success: true };
+        return { path, options, success: true };
     }
     catch(e) {
         logger.error(`failed to process ${path}`);
         logger.error(e);
-        return { path,options, success: false };
+        return { path, options, success: false };
     }
 }
 

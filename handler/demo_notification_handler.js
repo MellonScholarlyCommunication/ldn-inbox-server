@@ -33,12 +33,12 @@ async function handle({path,options}) {
                 inbox: actor_inbox
             }
         },null,2));
-        return { path,options, success: true };
+        return { path, options, success: true };
     }
     catch(e) {
         logger.error(`failed to process ${path}`);
         logger.debug(e);
-        return { path,options, success: false };
+        return { path, options, success: false };
     }
 }
 

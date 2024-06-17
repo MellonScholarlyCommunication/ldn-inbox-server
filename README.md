@@ -39,7 +39,7 @@ npx ldn-inbox-server handle @inbox -hn ./handler/demo_notification_handler.js
 Send the notifications in the outbox:
 
 ```
-npx ldn-inbox-server handle @outbox
+npx ldn-inbox-server handle @outbox -hn ./handler/send_notification_handler.js
 ```
 
 ## Environment
