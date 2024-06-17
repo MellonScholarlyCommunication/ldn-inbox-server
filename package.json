@@ -11,7 +11,7 @@
     "handle-inbox": "npx ldn-inbox-server handler @inbox -hn ./handler/demo_notification_handler.js",
     "handle-outbox": "npx ldn-inbox-server handler @outbox",
     "handle-eventlog": "npx ldn-inbox-server handler @inbox -hn handler/eventlog_notification_handler.js",
-    "clean": "rm error/* inbox/* outbox/*"
+    "clean": "rm error/* inbox/* outbox/* public/events/* public/events/log/*"
   },
   "bin": "./bin/ldn-inbox-server.js",
   "keywords": [
