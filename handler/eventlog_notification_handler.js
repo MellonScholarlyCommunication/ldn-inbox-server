@@ -7,6 +7,9 @@ const logger = require('../lib/util.js').getLogger();
 const EVENT_DIR = 'events';
 const EVENT_LOG = 'events.jsonld';
 
+/**
+ * Demonstration event log handler
+ */
 async function handle({path,options}) {
     logger.info(`parsing notification ${path}`);
     

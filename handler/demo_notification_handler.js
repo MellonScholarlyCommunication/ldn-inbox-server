@@ -2,6 +2,11 @@ const fs = require('fs');
 const md5 = require('md5');
 const logger = require('../lib/util.js').getLogger();
 
+/**
+ * Demonstration notification handler, that creates an 'Accept'
+ * notification for each incoming notification message and stores
+ * it in the outbox container.
+ */
 async function handle({path,options}) {
     logger.info(`parsing notification ${path}`);
     

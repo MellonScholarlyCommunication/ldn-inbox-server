@@ -1,6 +1,10 @@
 const { dynamic_handler , parseAsJSON } = require('../lib/util');
 const logger = require('../lib/util.js').getLogger();
 
+/**
+ * Demonstration notification handler that start multiple notification handlers.
+ * Requires a config file that specifies which handlers to start. 
+ */
 async function handle({path,options}) {
     let success = false;
 
