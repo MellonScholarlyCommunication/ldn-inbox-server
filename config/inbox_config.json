@@ -7,9 +7,21 @@
         "multi": {
             "handlers": [
                 "handler/valid_artifact_notification_handler.js" ,
-                "handler/accept_notification_handler.js",
-                "handler/eventlog_notification_handler.js"
+                "handler/eventlog_notification_handler.js",
+                "handler/offer_memento_notification_handler.js"
             ]
+        },
+        "offer_memento": {
+            "actor": {
+                "id": "http://localhost:8000/profile/card#me" ,
+                "inbox": "http://localhost:8000/inbox/" ,
+                "type": "Service"
+            },
+            "target": {
+                "id": "http://localhost:8001/profile/card#me" ,
+                "inbox": "http://localhost:8001/inbox/" ,
+                "type": "Service"
+            }
         }
     }
 }

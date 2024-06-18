@@ -18,9 +18,9 @@ async function handle({path,options}) {
         return { path, options, success: false };
     }
 
-    const eventConfig = config['notification_handler']?.['eventlog'];
+    const thisConfig = config['notification_handler']?.['eventlog'];
 
-    if (! eventConfig || !eventConfig['log'] || !eventConfig['dir']) {
+    if (! thisConfig || !thisConfig['log'] || !thisConfig['dir']) {
         logger.error('no log/dir entry for notification_handler.eventlog configuration'); 
         return { path, options, success: false };
     }
@@ -30,8 +30,8 @@ async function handle({path,options}) {
                         `http://${options['host']}:${options['port']}` :
                             'http://localhost:8000';
 
-    let eventLog = eventConfig['log'];
-    let eventDir = eventConfig['dir'];
+    let eventLog = thisConfig['log'];
+    let eventDir = thisConfig['dir'];
 
     let artifactPath = undefined;
 
