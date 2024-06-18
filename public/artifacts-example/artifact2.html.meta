@@ -1,0 +1,6 @@
+{
+    "Content-Type": "text/html",
+    "X-Artifact": true,
+    "Link-Template": "\"https://{YOUR-SERVER}/artifacts/artifact2.jsonld\"; rel=\"eventlog\"",
+    "Link": "</inbox/> ; rel=\"http://www.w3.org/ns/ldp#inbox\""
+}

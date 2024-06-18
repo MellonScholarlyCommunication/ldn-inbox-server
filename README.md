@@ -113,6 +113,15 @@ A handler can be started on any directory. E.g. a workflow might be:
 
 A `handler/multi_notification_handler.js` is available to start multiple handler for each notification messages. The handlers to start are specified in a configuraton file that can be passed via the `config` parameter of an `handle_inbox`. In the commmand line tool `bin/ldn-inbox-server` the default location of such config file is `config/inbox_config.json` when processing an `@inbox`, and `config/outbox_config.json` when processing an `@outbox`.
 
+## Artifact support 
+
+This code base contains Event Notifications support for Data Node artifacts. See the examples
+in `public/artifacts-example`. Move this directory tp `public/artifacts` to get a running example.
+
+- Each artifact requires at least a `.meta` file with the `X-Artifact` header set to `true` to be recognized by the software as an artifact
+- Each artifact should update the `Link-Template` header in the `.meta` file
+- The config files in `config/inbox_config.json` and `config/outbox_config.json` define the location of the possible event logs for the artifact
+  
 ## See also
 
 - [mellon-server](https://www.npmjs.com/package/mellon-server)

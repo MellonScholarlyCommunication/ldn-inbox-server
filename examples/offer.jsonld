@@ -7,7 +7,7 @@
     "type": "Offer",
     "actor": {
        "id": "https://acme.org.xyz/profile/card#us",
-       "inbox": "https://acme.org.xyz/inbox/",
+       "inbox": "http://localhost:8000/inbox/",
        "type": "Organization"
     },
     "object": {

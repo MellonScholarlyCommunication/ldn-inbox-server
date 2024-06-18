@@ -25,9 +25,51 @@ async function handle({path,options}) {
         return { path, options, success: false };
     }
 
-    const eventLog = eventConfig['log'];
-    const eventDir = eventConfig['dir'];
-    
+    const base = options['base'] ? options['base'] : 
+                    options['host'] && options['port'] ? 
+                        `http://${options['host']}:${options['port']}` :
+                            'http://localhost:8000';
+
+    let eventLog = eventConfig['log'];
+    let eventDir = eventConfig['dir'];
+
+    let artifactPath = undefined;
+
+    if (options['artifact']) {
+        artifactPath = options['artifact']['id'].substring(base.length+1);
+        logger.info(artifactPath);
+    }
+
+    if (eventLog.match(/@artifact(:[a-zA-Z]+)?@/)) {
+        if (options['artifact']) {
+            if (eventLog.match(/@artifact:strip@/)) {
+                eventLog = eventLog.replaceAll(/@artifact(:[a-zA-Z]+)?@/g,artifactPath.replaceAll(/\.\w+$/g,''));
+            }
+            else {
+                eventLog = eventLog.replaceAll(/@artifact(:[a-zA-Z]+)?@/g,artifactPath);
+            }
+        }
+        else {
+            logger.error(`requested to parse ${eventLog} but no artifact information available`);
+            return { path, options, success: false };
+        }
+    } 
+
+    if (eventDir.match(/@artifact(:[a-zA-Z]+)?@/)) {
+        if (options['artifact']) {
+            if (eventDir.match(/@artifact:strip@/)) {
+                eventDir = eventDir.replaceAll(/@artifact(:[a-zA-Z]+)?@/g,artifactPath.replaceAll(/\.\w+$/g,''));
+            }
+            else {
+                eventDir = eventDir.replaceAll(/@artifact(:[a-zA-Z]+)?@/g,artifactPath);
+            }
+        }
+        else {
+            logger.error(`requested to parse ${eventDir} but no artifact information available`);
+            return { path, options, success: false };
+        }
+    } 
+
     try {
         const json = fs.readFileSync(path, { encoding: 'utf-8' });
       
@@ -51,10 +93,7 @@ async function handle({path,options}) {
         },null,4));
 
         // Store the path in the options .. yeah yeah we know ugly but it works for now
-        const base = options['base'] ? options['base'] : 
-                     options['host'] && options['port'] ? 
-                        `http://${options['host']}:${options['port']}` :
-                            'http://localhost:8000';
+     
         const eventPath = `${eventDir}/${fileName}`;
         const eventId = `${base}/${eventPath}`;
         const eventLogId = `${base}/${eventLog}`;
@@ -82,8 +121,6 @@ async function handle({path,options}) {
 
 async function updateEventLog({path,options}) {
     logger.info(`updating eventlog for ${path}`);
-
-    logger.info(options);
 
     try {
         const notification = fs.readFileSync(path, { encoding: 'utf-8'});
