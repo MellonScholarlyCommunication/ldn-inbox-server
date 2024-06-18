@@ -1,5 +1,9 @@
 {
     "notification_handler": {
+        "eventlog": {
+            "log": "events/events.jsonld",
+            "dir": "events/log"
+        },
         "multi": {
             "handlers": [
                 "handler/valid_artifact_notification_handler.js" ,

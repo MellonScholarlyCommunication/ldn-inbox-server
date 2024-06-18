@@ -2,39 +2,72 @@ const fs = require('fs');
 const md5 = require('md5');
 const fsPath = require('path');
 const lockfile = require('proper-lockfile');
+const { parseAsJSON } = require('../lib/util');
 const logger = require('../lib/util.js').getLogger();
-
-const EVENT_DIR = 'events';
-const EVENT_LOG = 'events.jsonld';
 
 /**
  * Demonstration event log handler
  */
 async function handle({path,options}) {
     logger.info(`parsing notification ${path}`);
+
+    const config = parseAsJSON(options['config']);
+
+    if (! config) {
+        logger.error('no configuration found for eventlog_notification_handler');
+        return { path, options, success: false };
+    }
+
+    const eventConfig = config['notification_handler']?.['eventlog'];
+
+    if (! eventConfig || !eventConfig['log'] || !eventConfig['dir']) {
+        logger.error('no log/dir entry for notification_handler.eventlog configuration'); 
+        return { path, options, success: false };
+    }
+
+    const eventLog = eventConfig['log'];
+    const eventDir = eventConfig['dir'];
     
     try {
-        const json = fs.readFileSync(path, { encoding: 'utf-8'});
+        const json = fs.readFileSync(path, { encoding: 'utf-8' });
       
         const fileName = path.split('/').pop();
-        const logDir = fsPath.join(options['public'],EVENT_DIR,'log');
 
-        if (! fs.existsSync(logDir)) {
-            logger.info(`creating ${logDir}`);
-            fs.mkdirSync(logDir, { recursive : true });
+        if (! fs.existsSync(`${options['public']}/${eventDir}`)) {
+            logger.info(`creating ${options['public']}/${eventDir}`);
+            fs.mkdirSync(`${options['public']}/${eventDir}`, { recursive : true });
         }
-  
-        const outboxFile = fsPath.join(logDir,fileName);
 
-        fs.writeFileSync(outboxFile, json);
+        const eventFile = `${options['public']}/${eventDir}/${fileName}`;
+
+        fs.writeFileSync(eventFile, json);
 
         // Updating metadata file
-        const metaFile = outboxFile + '.meta';
+        const metaFile = `${options['public']}/${eventLog}.meta`;
 
         fs.writeFileSync(metaFile, JSON.stringify({
             'Content-Type': 'application/ld+json',
             'Last-Modified': nowISO()
         },null,4));
+
+        // Store the path in the options .. yeah yeah we know ugly but it works for now
+        const base = options['base'] ? options['base'] : 
+                     options['host'] && options['port'] ? 
+                        `http://${options['host']}:${options['port']}` :
+                            'http://localhost:8000';
+        const eventPath = `${eventDir}/${fileName}`;
+        const eventId = `${base}/${eventPath}`;
+        const eventLogId = `${base}/${eventLog}`;
+
+        options['eventlog'] = {
+            'id': eventLogId ,
+            'file': `${options['public']}/${eventLog}` ,
+            'dir': `${options['public']}/${eventDir}` ,
+            'item': {
+                'id' : eventId ,
+                'file' : eventFile 
+            }
+        };
 
         await updateEventLog({path,options});
 
@@ -50,15 +83,14 @@ async function handle({path,options}) {
 async function updateEventLog({path,options}) {
     logger.info(`updating eventlog for ${path}`);
 
+    logger.info(options);
+
     try {
         const notification = fs.readFileSync(path, { encoding: 'utf-8'});
         const notification_checksum = md5(notification);
 
-        const baseUrl = process.env.LDN_SERVER_BASEURL ?? "";
-        const fileName = path.split('/').pop();
-        const entry = `${baseUrl}/${EVENT_DIR}/log/${fileName}`;
-
-        const eventLog = fsPath.join(options['public'],EVENT_DIR,EVENT_LOG);
+        const entry = options['eventlog']['item']['id'];
+        const eventLog = options['eventlog']['file'];
 
         let json;
         
