@@ -11,7 +11,7 @@
        "type": "Organization"
     },
     "object": {
-       "id": "http://acme.org.xyz/artifacts/alice/data-set-2022-01-19.zip",
+       "id": "http://localhost:8000/artifacts/artifact1.html",
        "type": [ "Document" , "schema:Dataset" ]
     },
     "target": {

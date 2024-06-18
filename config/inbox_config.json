@@ -2,7 +2,7 @@
     "notification_handler": {
         "multi": {
             "handlers": [
-                "handler/accept_notification_handler.js" ,
+                "handler/valid_artifact_notification_handler.js" ,
                 "handler/eventlog_notification_handler.js"
             ]
         }
