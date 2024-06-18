@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { ldPropertyAsId , isArtifact } = require('../lib/util.js');
+const { ldPropertyAsId , parseArtifact } = require('../lib/util.js');
 const logger = require('../lib/util.js').getLogger();
 
 /**
@@ -30,7 +30,15 @@ async function handle({path,options}) {
             return { path, options, success: false };
         }
 
-        if (isArtifact(artifact,options)) {
+        const artifactPath = parseArtifact(artifact,options);
+
+        if (artifactPath) {
+            // Storing the artifact path to the options. 
+            // Maybe bad practice..but it is a workflow attribute like in Nifi :P
+            options['artifact'] = {
+                'id': artifact ,
+                'path': artifactPath
+            };
             return { path, options, success: true };
         }
         else {
