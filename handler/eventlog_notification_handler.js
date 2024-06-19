@@ -142,7 +142,7 @@ async function updateEventLog({path,options}) {
             };
         }
      
-        if (json['member'].findIndex( (e) => e === entry) >= 0) {
+        if (json['member'].findIndex( (e) => e['id'] === entry) >= 0) {
             logger.info(`${entry} already in ${eventLog}`);
         }
         else {

@@ -13,7 +13,7 @@
     "handle-eventlog": "npx ldn-inbox-server handler @inbox -hn handler/eventlog_notification_handler.js",
     "handle-inbox-multi": "npx ldn-inbox-server handler @inbox -hn ./handler/multi_notification_handler.js",
     "handle-outbox-multi": "npx ldn-inbox-server handler @outbox -hn ./handler/multi_notification_handler.js",
-    "clean": "rm error/* inbox/* outbox/* public/events/* public/events/log/*"
+    "clean": "rm -rf error/* inbox/* outbox/* public/events/* public/events/log/* public/artifacts/artifact1 public/artifacts/artifact2 public/artifacts/*.jsonld*"
   },
   "bin": "./bin/ldn-inbox-server.js",
   "keywords": [
