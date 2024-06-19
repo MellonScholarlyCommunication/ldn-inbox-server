@@ -33,13 +33,13 @@ curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/off
 Start an inbox handler with a demo handler (that creates an `Accept` message in the `./outbox`).
 
 ```
-npx ldn-inbox-server handle @inbox -hn ./handler/demo_notification_handler.js
+npx ldn-inbox-server handler @inbox -hn ./handler/accept_notification_handler.js
 ```
 
-Send the notifications in the outbox:
+Start an outbox handler that send the notifications that are available outbox:
 
 ```
-npx ldn-inbox-server handle @outbox -hn ./handler/send_notification_handler.js
+npx ldn-inbox-server handler @outbox -hn ./handler/send_notification_handler.js
 ```
 
 ## Environment
@@ -62,7 +62,7 @@ npx ldn-inbox-server handle @outbox -hn ./handler/send_notification_handler.js
 Server extensions are possible by providing custom inbox and notification handlers. E.g.
 
 ```
-npx ldn-inbox-server handle-inbox -hn handler/demo_notification_handler.js
+npx ldn-inbox-server handler @inbox -hn handler/my_handler.js
 ```
 
 Or, in JavaScript:
@@ -81,12 +81,12 @@ async function main() {
         'batch_size': 5,
         'glob': '^.*\\.jsonld$',
         'config': './config/inbox_config.json',
-        'notification_handler': 'handler/demo_notification_handler.js' 
+        'notification_handler': 'handler/my_handler.js' 
     });
 }
 ```
 
-with `worker.js` :
+with `my_handler.js` :
 
 ```
 async function handle({path,options}) {
@@ -109,9 +109,44 @@ A handler can be started on any directory. E.g. a workflow might be:
 - processed LDN messages will end up in the "outbox" box
 - invalid processing will be saved into the "error" box  
 
-## Multi handler
+## Handlers
+
+### Accept handler
+
+A handler that creates for an incoming notification an `Accept` notification in the `@outbox`.
+
+### Evenlog handler
+
+A handler that updates an event log with the incoming notification. 
+
+Requires a configuration file with property `notification_handler.eventlog`:
+
+- `log`: the path to the event log (starting from the `public` directory)
+- `dir`: the path to a container to store the events (starting from the `public` directory)
+
+The `log` and `dir` path may contain a `@artifact(:strip)?@` directive to fill in the
+path of the current artifact. The `:strip` filter is used to strip an artifact path of a file extension. E.g. `path/artifact.html` becomes `path/artifact` when using a `:strip`.
+
+### Multi handler
 
 A `handler/multi_notification_handler.js` is available to start multiple handler for each notification messages. The handlers to start are specified in a configuraton file that can be passed via the `config` parameter of an `handle_inbox`. In the commmand line tool `bin/ldn-inbox-server` the default location of such config file is `config/inbox_config.json` when processing an `@inbox`, and `config/outbox_config.json` when processing an `@outbox`.
+
+### Offer memento handler
+
+A handler to `Offer` an event log to a memento server.
+
+Requires a configuration file with property `notification_handler.offer_memento`:
+
+- `actor`: the LDN+AS2 `actor` to use in a notification
+- `target`: the LDN+AS2 `target` to use in a notification
+
+### Send handler
+
+A hanlder to send notification that live in the `@outbox` via the LDN protocol to the LDN `target`.
+
+### Valid artifact
+
+A handler that validates the incoming notification and checks if the `object` or `context` contains an artifact that is part of the `public` resources. See 'Artifact support' below.
 
 ## Artifact support 
 
