@@ -42,6 +42,7 @@ program
 
 program
   .command('handler')
+  .option('--base <url>','base url',INBOX_BASE_URL)
   .option('--inbox <inbox>','inbox',INBOX_PATH)
   .option('--outbox <outbox>','outbox',OUTBOX_PATH)
   .option('--public <public>','public',PUBLIC_PATH)
