@@ -1,5 +1,6 @@
 const fs = require('fs');
 const md5 = require('md5');
+const { parseAsJSON } = require('../lib/util');
 const logger = require('../lib/util.js').getLogger();
 
 /**
@@ -11,7 +12,7 @@ async function handle({path,options}) {
     logger.info(`parsing notification ${path}`);
     
     try {
-        const json = JSON.parse(fs.readFileSync(path, { encoding: 'utf-8'}));
+        const json = parseAsJSON(path);
         
         const id = json['id'];
         const object = json['object'];

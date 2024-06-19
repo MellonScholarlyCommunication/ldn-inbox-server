@@ -1,5 +1,4 @@
-const fs = require('fs');
-const { ldPropertyAsId , parseArtifact } = require('../lib/util.js');
+const { ldPropertyAsId , parseArtifact, parseAsJSON } = require('../lib/util.js');
 const logger = require('../lib/util.js').getLogger();
 
 /**
@@ -10,7 +9,7 @@ async function handle({path,options}) {
     logger.info(`parsing notification ${path}`);
     
     try {
-        const json = JSON.parse(fs.readFileSync(path, { encoding: 'utf-8'}));
+        const json = parseAsJSON(path);
         
         let artifact = undefined;
 

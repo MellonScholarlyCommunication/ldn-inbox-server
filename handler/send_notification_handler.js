@@ -1,6 +1,5 @@
-const fs = require('fs');
 const logger = require('../lib/util.js').getLogger();
-const { sendNotification } = require('../lib/util.js');
+const { sendNotification , parseAsJSON } = require('../lib/util.js');
 
 /**
  * Demonstration notification handler that sends a notification to a
@@ -8,7 +7,7 @@ const { sendNotification } = require('../lib/util.js');
  */
 async function handle({path,options}) {
     try {
-        const json = fs.readFileSync(path, { encoding: 'utf-8'});
+        const json = parseAsJSON(path);
         const data = JSON.parse(json);
         const type = data['type'];
         let inbox;
