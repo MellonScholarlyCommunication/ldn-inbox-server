@@ -7,8 +7,7 @@ const { sendNotification , parseAsJSON } = require('../lib/util.js');
  */
 async function handle({path,options}) {
     try {
-        const json = parseAsJSON(path);
-        const data = JSON.parse(json);
+        const data = parseAsJSON(path);
         const type = data['type'];
         let inbox;
 
