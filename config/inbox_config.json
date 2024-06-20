@@ -6,10 +6,12 @@
         },
         "multi": {
             "handlers": [
+                [
                 "handler/type_filter_notification_handler.js",
                 "handler/valid_artifact_notification_handler.js" ,
                 "handler/eventlog_notification_handler.js",
                 "handler/offer_memento_notification_handler.js"
+                ]
             ]
         },
         "offer_memento": {

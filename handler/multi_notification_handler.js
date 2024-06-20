@@ -24,27 +24,41 @@ async function handle({path,options}) {
 
     try {
         logger.info(`starting multi handler`);
-        
+       
+        let workflow_errors = 0;
+
         for (let i = 0 ; i < handlers.length ; i++) {
-            logger.info(`starting ${handlers[i]}`);
+            const workflow = handlers[i];
 
-            const handler = dynamic_handler(handlers[i],null);
+            for (let j = 0 ; j < workflow.length ; j++) {
+                const step = workflow[j];
 
-            if (! handler) {
-                throw new Error(`failed to load ${handlers[i]}`);
-            }
+                logger.info(`workflow[${i}] : starting ${step}`);
 
-            const result = await handler({path,options});
-           
-            if (result['success']) {
-                logger.info(`finished ${handlers[i]}`);
-            }
-            else {
-                throw new Error(`Eek! ${handlers[i]} failed`);
+                const handler = dynamic_handler(step,null);
+
+                if (! handler) {
+                    throw new Error(`failed to load ${step}`);
+                }
+
+                const result = await handler({path,options});
+            
+                if (result['success']) {
+                    logger.info(`workflow[${i}] : finished ${step}`);
+                }
+                else {
+                    logger.error(`Eek! ${handlers[i]} failed`);
+                    workflow_errors++;
+                }
             }
         }
 
-        success = true;
+        if (workflow_errors === 0) {
+            success = true;
+        }
+        else {
+            success = false;
+        }
     }
     catch (e) {
         logger.error(`failed to process ${path}`);
