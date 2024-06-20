@@ -2,25 +2,20 @@ const fs = require('fs');
 const md5 = require('md5');
 const fsPath = require('path');
 const lockfile = require('proper-lockfile');
-const { parseAsJSON } = require('../lib/util');
 const logger = require('../lib/util.js').getLogger();
 
 /**
  * Demonstration event log handler
  */
-async function handle({path,options}) {
+async function handle({path,options,config}) {
     logger.info(`parsing notification ${path}`);
-
-    const config = parseAsJSON(options['config']);
 
     if (! config) {
         logger.error('no configuration found for eventlog_notification_handler');
         return { path, options, success: false };
     }
 
-    const thisConfig = config['notification_handler']?.['eventlog'];
-
-    if (! thisConfig || !thisConfig['log'] || !thisConfig['dir']) {
+    if (!config['log'] || !config['dir']) {
         logger.error('no log/dir entry for notification_handler.eventlog configuration'); 
         return { path, options, success: false };
     }
@@ -30,8 +25,8 @@ async function handle({path,options}) {
                         `http://${options['host']}:${options['port']}` :
                             'http://localhost:8000';
 
-    let eventLog = thisConfig['log'];
-    let eventDir = thisConfig['dir'];
+    let eventLog = config['log'];
+    let eventDir = config['dir'];
 
     let artifactPath = undefined;
 

@@ -5,7 +5,7 @@ const { sendNotification , parseAsJSON } = require('../lib/util.js');
  * Demonstration notification handler that sends a notification to a
  * target inbox. 
  */
-async function handle({path,options}) {
+async function handle({path,options,config}) {
     try {
         const data = parseAsJSON(path);
         const type = data['type'];

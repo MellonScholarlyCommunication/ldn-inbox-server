@@ -31,7 +31,18 @@ async function handle({path,options}) {
             const workflow = handlers[i];
 
             for (let j = 0 ; j < workflow.length ; j++) {
-                const step = workflow[j];
+                let step = undefined;
+                let config = undefined;
+
+                if (typeof workflow[j] === 'string' || workflow[j] instanceof String) {
+                    step = workflow[j];
+                    config = {};
+                }
+                else {
+                    step = workflow[j]['id'];
+                    delete workflow[j]['id']; 
+                    config = workflow[j];
+                }
 
                 logger.info(`workflow[${i}] : starting ${step}`);
 
@@ -41,7 +52,7 @@ async function handle({path,options}) {
                     throw new Error(`failed to load ${step}`);
                 }
 
-                const result = await handler({path,options});
+                const result = await handler({path,options,config});
             
                 if (result['success']) {
                     logger.info(`workflow[${i}] : finished ${step}`);

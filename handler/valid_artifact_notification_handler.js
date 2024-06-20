@@ -5,7 +5,7 @@ const logger = require('../lib/util.js').getLogger();
  * Demonstration notification handler, that checks if the notification
  * message contains an artifact that is known to the data node
  */
-async function handle({path,options}) {
+async function handle({path,options,config}) {
     logger.info(`parsing notification ${path}`);
     
     try {

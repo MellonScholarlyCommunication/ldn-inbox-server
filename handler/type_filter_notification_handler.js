@@ -1,4 +1,3 @@
-const fs = require('fs');
 const { parseAsJSON } = require('../lib/util');
 const logger = require('../lib/util.js').getLogger();
 
@@ -6,24 +5,15 @@ const logger = require('../lib/util.js').getLogger();
  * Demonstration notification handler, that checks if the notification
  * matches a configurable list
  */
-async function handle({path,options}) {
+async function handle({path,options,config}) {
     logger.info(`parsing notification ${path}`);
     
-    const config = parseAsJSON(options['config']);
-
     if (! config) {
         logger.error('no configuration found for eventlog_notification_handler');
         return { path, options, success: false };
     }
 
-    const thisConfig = config['notification_handler']?.['type_filter'];
-
-    if (! thisConfig) {
-        logger.error('no notification_handler.type_filer configuration'); 
-        return { path, options, success: false };
-    }
-
-    if (! (thisConfig['anyOf'] && Array.isArray(thisConfig['anyOf']))) {
+    if (! (config['anyOf'] && Array.isArray(config['anyOf']))) {
         logger.error('no anyOf entry in notification_handler.type_filer should be an array'); 
         return { path, options, success: false };
     }
@@ -38,7 +28,7 @@ async function handle({path,options}) {
         let isOk = true ;
 
         for (let i = 0 ; i < typeArray.length ; i++) {
-            if (thisConfig['anyOf'].includes(typeArray[i])) {
+            if (config['anyOf'].includes(typeArray[i])) {
                 // We are ok
             }
             else {

@@ -1,6 +1,5 @@
 const fs = require('fs');
 const md5 = require('md5');
-const { parseAsJSON } = require('../lib/util.js');
 const logger = require('../lib/util.js').getLogger();
 
 /**
@@ -8,19 +7,15 @@ const logger = require('../lib/util.js').getLogger();
  * notification for each incoming notificaation to request the
  * archivation of the event log.
  */
-async function handle({path,options}) {
+async function handle({path,options,config}) {
     logger.info(`parsing notification ${path}`);
-
-    const config = parseAsJSON(options['config']);
 
     if (! config) {
         logger.error('no configuration found for offer_memento_notification_handler');
         return { path, options, success: false };
     }
    
-    const thisConfig = config['notification_handler']?.['offer_memento'];
-
-    if (! thisConfig || !thisConfig['actor'] || !thisConfig['target']) {
+    if (!config['actor'] || !config['target']) {
         logger.error('no actor/target entry for notification_handler.eventlog configuration'); 
         return { path, options, success: false };
     }
@@ -42,12 +37,12 @@ async function handle({path,options}) {
                 {"schema": "https://schema.org/"}
             ], 
             type: 'Offer',
-            actor: thisConfig['actor'],
+            actor: config['actor'],
             object: {
                 id: options['eventlog']['id'],
                 type: [ "Document", "schema:Dataset" ]
             },
-            target: thisConfig['target']
+            target: config['target']
         },null,4);
 
         const outboxFile = options['outbox'] + '/' + md5(data) + '.jsonld';

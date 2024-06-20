@@ -6,7 +6,7 @@ const fs = require('fs');
  * To use it set it via the `--hi` option of `bin/ldn-inbox-server.js`, or
  * the `inbox_handler` option of the `handle_inbox` function.
  */
-async function handle({path,options}) {
+async function handle({path,options,config}) {
     console.log(`handleInbox(${path},..)`);
     fs.readdir(path, (err,files) => {
         files.forEach( (file) => {

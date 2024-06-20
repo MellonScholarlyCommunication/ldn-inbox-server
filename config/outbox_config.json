@@ -1,14 +1,14 @@
 {
     "notification_handler": {
-        "eventlog": {
-            "log": "@artifact:strip@.jsonld",
-            "dir": "@artifact:strip@"
-        },
         "multi": {
             "handlers": [
                 [
                 "handler/send_notification_handler.js",
-                "handler/eventlog_notification_handler.js"
+                {
+                    "id": "handler/eventlog_notification_handler.js",
+                    "log": "@artifact:strip@.jsonld",
+                    "dir": "@artifact:strip@" 
+                }
                 ]
             ]
         }

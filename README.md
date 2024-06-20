@@ -119,7 +119,7 @@ A handler that creates for an incoming notification an `Accept` notification in 
 
 A handler that updates an event log with the incoming notification. 
 
-Requires a configuration file with property `notification_handler.eventlog`:
+Requires a configuration properties:
 
 - `log`: the path to the event log (starting from the `public` directory)
 - `dir`: the path to a container to store the events (starting from the `public` directory)
@@ -135,7 +135,7 @@ A `handler/multi_notification_handler.js` is available to start multiple handler
 
 A handler to `Offer` an event log to a memento server.
 
-Requires a configuration file with property `notification_handler.offer_memento`:
+Requires a configuration properties:
 
 - `actor`: the LDN+AS2 `actor` to use in a notification
 - `target`: the LDN+AS2 `target` to use in a notification

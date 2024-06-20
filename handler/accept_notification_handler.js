@@ -8,7 +8,7 @@ const logger = require('../lib/util.js').getLogger();
  * notification for each incoming notification message and stores
  * it in the outbox container.
  */
-async function handle({path,options}) {
+async function handle({path,options,config}) {
     logger.info(`parsing notification ${path}`);
     
     try {
