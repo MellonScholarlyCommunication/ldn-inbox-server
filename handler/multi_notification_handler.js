@@ -25,6 +25,7 @@ async function handle({path,options}) {
     try {
         logger.info(`starting multi handler`);
        
+        let workflow_success = 0;
         let workflow_errors = 0;
 
         for (let i = 0 ; i < handlers.length ; i++) {
@@ -56,6 +57,7 @@ async function handle({path,options}) {
             
                 if (result['success']) {
                     logger.info(`workflow[${i}] : finished ${step}`);
+                    workflow_success++;
                 }
                 else {
                     logger.error(`Eek! ${handlers[i]} failed`);
@@ -64,7 +66,7 @@ async function handle({path,options}) {
             }
         }
 
-        if (workflow_errors === 0) {
+        if (handlers.length > 0 && workflow_success > 0) {
             success = true;
         }
         else {
