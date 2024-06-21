@@ -1,6 +1,5 @@
 const fs = require('fs');
 const md5 = require('md5');
-const fsPath = require('path');
 const lockfile = require('proper-lockfile');
 const logger = require('../../lib/util.js').getLogger();
 

@@ -133,7 +133,7 @@ A handler that accepts a notifiction when it matches one or more JSON paths
 
 Requires configuration properties:
 
-- anyOf : an array of json path matchers
+- anyOf : an array of json path matchers, the combination should be interpreted as a logical `OR`.
    - every json path matcher is an array of single matchers, the combination should be interpered as a logical `AND`.
   
 A single matcher needs two properties:

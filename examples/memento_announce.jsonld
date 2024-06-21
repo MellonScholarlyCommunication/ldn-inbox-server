@@ -11,13 +11,13 @@
       "inbox": "https://labs.eventnotifications.net/service/m/inbox/",
       "type": "Service"
     },
-    "context": "http://193.190.80.48:56633/service/r/artifacts/artifact1.jsonld",
+    "context": "http://localhost:8000/artifacts/artifact1.jsonld",
     "inReplyTo": "urn:uuid:6E5FAF88-A7F1-47A4-B087-77345EBFF495",
     "object": {
-      "id": "https://labs.eventnotifications.net/service/m/map/http://193.190.80.48:56633/service/r/artifacts/artifact1.jsonld",
+      "id": "https://labs.eventnotifications.net/service/m/map/http://localhost:8000/artifacts/artifact1.jsonld",
       "type": "Document",
-      "ietf:original": "http://193.190.80.48:56633/service/r/artifacts/artifact1.jsonld",
-      "ietf:memento": "https://labs.eventnotifications.net/service/m/memento/http://193.190.80.48:56633/service/r/artifacts/artifact1.jsonld/6c7f984b0702a16b6b9661ea7dca2db48fa8086d"
+      "ietf:original": "http://localhost:8000/artifacts/artifact1.jsonld",
+      "ietf:memento": "https://labs.eventnotifications.net/service/m/memento/http://localhost:8000/artifacts/artifact1.jsonld/6c7f984b0702a16b6b9661ea7dca2db48fa8086d"
     },
     "target": {
       "id": "http://193.190.80.48:56633/service/r/profile/card#me",
