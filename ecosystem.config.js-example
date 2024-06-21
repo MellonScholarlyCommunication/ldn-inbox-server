@@ -1,0 +1,16 @@
+module.exports = {
+  apps : [
+   {
+    name   : "ldn-inbox-server",
+    script : "./bin/ldn-inbox-server.js start-server"
+   } ,
+   {
+    name   : "ldn-inbox-inbox",
+    script : "LOG4JS=info ./bin/ldn-inbox-server.js handler @inbox --loop 20 -hn ./handler/notification_handler/multi.js"
+   } ,
+   {
+    name   : "ldn-inbox-outbox",
+    script : "LOG4JS=info ./bin/ldn-inbox-server.js handler @outbox --loop 20 -hn ./handler/notification_handler/multi.js"
+   } 
+ ]
+}
