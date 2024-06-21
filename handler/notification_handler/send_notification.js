@@ -1,5 +1,5 @@
-const logger = require('../lib/util.js').getLogger();
-const { sendNotification , parseAsJSON } = require('../lib/util.js');
+const logger = require('../../lib/util.js').getLogger();
+const { sendNotification , parseAsJSON } = require('../../lib/util.js');
 
 /**
  * Demonstration notification handler that sends a notification to a

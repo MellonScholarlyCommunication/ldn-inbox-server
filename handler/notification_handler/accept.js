@@ -1,7 +1,7 @@
 const fs = require('fs');
 const md5 = require('md5');
-const { parseAsJSON } = require('../lib/util');
-const logger = require('../lib/util.js').getLogger();
+const { parseAsJSON } = require('../../lib/util.js');
+const logger = require('../../lib/util.js').getLogger();
 
 /**
  * Demonstration notification handler, that creates an 'Accept'
@@ -47,7 +47,7 @@ async function handle({path,options,config}) {
     }
     catch(e) {
         logger.error(`failed to process ${path}`);
-        logger.debug(e);
+        logger.error(e);
         return { path, options, success: false };
     }
 }

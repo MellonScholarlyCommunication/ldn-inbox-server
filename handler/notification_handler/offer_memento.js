@@ -1,6 +1,6 @@
 const fs = require('fs');
 const md5 = require('md5');
-const logger = require('../lib/util.js').getLogger();
+const logger = require('../../lib/util.js').getLogger();
 
 /**
  * Demonstration notification handler, that creates an 'Offer'
@@ -55,7 +55,7 @@ async function handle({path,options,config}) {
     }
     catch(e) {
         logger.error(`failed to process ${path}`);
-        logger.debug(e);
+        logger.error(e);
         return { path, options, success: false };
     }
 }

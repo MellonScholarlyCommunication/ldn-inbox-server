@@ -3,7 +3,7 @@
         "multi": {
             "handlers": [
                 [
-                "handler/send_notification_handler.js",
+                "handler/notification_handler/send_notification.js",
                 {
                     "id": "handler/eventlog_notification_handler.js",
                     "log": "@artifact:strip@.jsonld",

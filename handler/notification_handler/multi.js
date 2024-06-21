@@ -1,5 +1,5 @@
-const { dynamic_handler , parseAsJSON } = require('../lib/util');
-const logger = require('../lib/util.js').getLogger();
+const { dynamic_handler , parseAsJSON } = require('../../lib/util.js');
+const logger = require('../../lib/util.js').getLogger();
 
 /**
  * Demonstration notification handler that start multiple notification handlers.
@@ -22,15 +22,17 @@ async function handle({path,options}) {
         return { path, options, success: false };
     }
 
-    try {
-        logger.info(`starting multi handler`);
+    logger.info(`starting multi handler`);
        
-        let workflow_success = 0;
-        let workflow_errors = 0;
+    let workflow_success = 0;
+    let workflow_errors = 0;
 
-        for (let i = 0 ; i < handlers.length ; i++) {
-            const workflow = handlers[i];
+    for (let i = 0 ; i < handlers.length ; i++) {
+        const workflow = handlers[i];
 
+        let thisWorkflow = true;
+
+        try {
             for (let j = 0 ; j < workflow.length ; j++) {
                 let step = undefined;
                 let config = undefined;
@@ -57,26 +59,32 @@ async function handle({path,options}) {
             
                 if (result['success']) {
                     logger.info(`workflow[${i}] : finished ${step}`);
-                    workflow_success++;
                 }
                 else {
-                    logger.error(`Eek! ${handlers[i]} failed`);
-                    workflow_errors++;
+                    logger.error(`workflow[${i}] : failed ${step}`);
+                    thisWorkflow = false;
+                    break;
                 }
             }
         }
+        catch (e) {
+            logger.error(`failed to process ${path}`);
+            logger.error(e);
+            thisWorkflow = false;
+        }
 
-        if (handlers.length > 0 && workflow_success > 0) {
-            success = true;
+        if (thisWorkflow) {
+            workflow_success++;
         }
         else {
-            success = false;
+            workflow_errors++;
         }
     }
-    catch (e) {
-        logger.error(`failed to process ${path}`);
-        logger.error(e);
 
+    if (handlers.length > 0 && workflow_success > 0) {
+        success = true;
+    }
+    else {
         success = false;
     }
 

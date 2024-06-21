@@ -4,17 +4,19 @@
             "handlers": [
                 [
                  { 
-                    "id": "handler/type_filter_notification_handler.js",
-                    "anyOf": [ "Offer" ]
+                    "id": "handler/notification_handler/jsonpath_filter.js",
+                    "anyOf": [ 
+                        [ { "path": "$.type" , "value": "Offer" } ]
+                    ]
                  }, 
-                 "handler/valid_artifact_notification_handler.js" ,
+                 "handler/notification_handler/valid_artifact.js" ,
                  {
-                    "id": "handler/eventlog_notification_handler.js",
+                    "id": "handler/notification_handler/eventlog.js",
                     "log": "@artifact:strip@.jsonld",
                     "dir": "@artifact:strip@"
                  },
                  {
-                    "id": "handler/offer_memento_notification_handler.js",
+                    "id": "handler/notification_handler/offer_memento.js",
                     "actor": {
                         "id": "http://localhost:8000/profile/card#me" ,
                         "inbox": "http://localhost:8000/inbox/" ,
