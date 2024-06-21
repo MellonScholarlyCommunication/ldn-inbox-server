@@ -6,3 +6,4 @@ public/events/**
 public/artifacts/**
 public/index.html
 .env
+ecosystem.config.js
