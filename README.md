@@ -119,13 +119,32 @@ A handler that creates for an incoming notification an `Accept` notification in 
 
 A handler that updates an event log with the incoming notification. 
 
-Requires a configuration properties:
+Requires configuration properties:
 
 - `log`: the path to the event log (starting from the `public` directory)
 - `dir`: the path to a container to store the events (starting from the `public` directory)
 
 The `log` and `dir` path may contain a `@artifact(:strip)?@` directive to fill in the
 path of the current artifact. The `:strip` filter is used to strip an artifact path of a file extension. E.g. `path/artifact.html` becomes `path/artifact` when using a `:strip`.
+
+### Json Path handler
+
+A handler that accepts a notifiction when it matches one or more JSON paths
+
+Requires configuration properties:
+
+- anyOf : an array of json path matchers
+   - every json path matcher is an array of single matchers, the combination should be interpered as a logical `AND`.
+  
+A single matcher needs two properties:
+
+- path : a json path
+- value : a value
+
+The json path matches when one of:
+
+- On the json path an array is found and the value is included in the array
+- On the json path a string or number is found and the value is equal to this string or number
 
 ### Multi handler
 
@@ -135,16 +154,20 @@ A `handler/multi_notification_handler.js` is available to start multiple handler
 
 A handler to `Offer` an event log to a memento server.
 
-Requires a configuration properties:
+Requires configuration properties:
 
 - `actor`: the LDN+AS2 `actor` to use in a notification
 - `target`: the LDN+AS2 `target` to use in a notification
 
-### Send handler
+### Send notification handler
 
-A hanlder to send notification that live in the `@outbox` via the LDN protocol to the LDN `target`.
+A handler to send notification that live in the `@outbox` via the LDN protocol to the LDN `target`.
 
-### Valid artifact
+### Type handler
+
+A handler that accepts any notification with a type that matches one of the `anyOf` types.
+
+### Valid artifact handler
 
 A handler that validates the incoming notification and checks if the `object` or `context` contains an artifact that is part of the `public` resources. See 'Artifact support' below.
 
