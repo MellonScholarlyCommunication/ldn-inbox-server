@@ -171,6 +171,20 @@ A handler that accepts any notification with a type that matches one of the `any
 
 A handler that validates the incoming notification and checks if the `object` or `context` contains an artifact that is part of the `public` resources. See 'Artifact support' below.
 
+Generates the following options keys:
+
+- artifact.id : the URL of the artifact
+- artifact.path : the local path to the artifact
+
+### Valid event log handler
+
+A hander that validates the incoming notification and checks if the `object` or `context` contains an event log that is part of the `public` resources.
+
+Generates the following options keys:
+
+- eventlog.id : the URL of the event log
+- eventlog.path : the local path of the event log
+
 ## Artifact support 
 
 This code base contains Event Notifications support for Data Node artifacts. See the examples
