@@ -16,9 +16,24 @@ program
   .argument('<url>','notification')
   .argument('<file>','notification')
   .action( async(url,file) => {
-     const to = url === '@me' ? `${INBOX_BASE_URL}/${INBOX_URL}` : url;
      const json = JSON.parse(fs.readFileSync(file, { encoding: 'utf-8'}));
-     await sendNotification(to,json);  
+
+     let to = url;
+
+     if (to === '@me') {
+        to = `${INBOX_BASE_URL}/${INBOX_URL}`;
+     }
+     else if (to === '@target') {
+        to = json['target']['inbox'];
+     }
+     
+     if (!to) {
+        logger.error('no "to" inbox found');
+     }
+     else {
+        logger.info(`sending notification to ${to}`);
+        await sendNotification(to,json);  
+     }
   });
 
 program.parse();
