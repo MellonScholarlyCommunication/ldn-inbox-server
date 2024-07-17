@@ -83,8 +83,19 @@ async function handle({path,options,config}) {
 
         fs.writeFileSync(metaFile, JSON.stringify({
             'Content-Type': 'application/ld+json',
-            'Last-Modified': nowISO()
+            'Last-Modified': nowISO(), 
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Expose-Headers': 'Link, Link-Template'
         },null,4));
+
+        const eventMetaFile = `${eventFile}.meta`;
+
+        fs.writeFileSync(eventMetaFile, JSON.stringify({
+            'Content-Type': 'application/ld+json',
+            'Last-Modified': nowISO(), 
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Expose-Headers': 'Link, Link-Template'
+        },null,4)); 
 
         // Store the path in the options .. yeah yeah we know ugly but it works for now
      

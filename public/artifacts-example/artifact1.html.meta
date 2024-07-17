@@ -2,5 +2,7 @@
     "Content-Type": "text/html",
     "X-Artifact": true,
     "Link-Template": "\"https://{YOUR-SERVER}/artifacts/artifact1.jsonld\"; rel=\"eventlog\"",
-    "Link": "</inbox/> ; rel=\"http://www.w3.org/ns/ldp#inbox\""
+    "Link": "</inbox/> ; rel=\"http://www.w3.org/ns/ldp#inbox\"" ,
+    "Access-Control-Allow-Origin": "*" ,
+    "Access-Control-Expose-Headers": "Link, Link-Template"
 }
