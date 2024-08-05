@@ -4,21 +4,21 @@
             "handlers": [
                 [
                  { 
-                    "id": "handler/notification_handler/jsonpath_filter.js",
+                    "id": "@handler/notification_handler/jsonpath_filter.js",
                     "anyOf": [ 
                         [ 
                             { "path": "$.type" , "value": "Offer" } 
                         ]
                     ]
                  }, 
-                 "handler/notification_handler/valid_artifact.js" ,
+                 "@handler/notification_handler/valid_artifact.js" ,
                  {
-                    "id": "handler/notification_handler/eventlog.js",
+                    "id": "@handler/notification_handler/eventlog.js",
                     "log": "@artifact:strip@.jsonld",
                     "dir": "@artifact:strip@"
                  },
                  {
-                    "id": "handler/notification_handler/offer_memento.js",
+                    "id": "@handler/notification_handler/offer_memento.js",
                     "actor": {
                         "id": "http://localhost:8000/profile/card#me" ,
                         "inbox": "http://localhost:8000/inbox/" ,
@@ -33,7 +33,7 @@
                 ] ,
                 [
                   { 
-                    "id": "handler/notification_handler/jsonpath_filter.js",
+                    "id": "@handler/notification_handler/jsonpath_filter.js",
                     "anyOf": [ 
                         [ 
                             { "path": "$.type" , "value": "Announce" } ,
@@ -41,8 +41,8 @@
                         ]
                     ]
                  } ,
-                 "handler/notification_handler/valid_eventlog.js",
-                 "handler/notification_handler/add_timemap_link.js" 
+                 "@handler/notification_handler/valid_eventlog.js",
+                 "@handler/notification_handler/add_timemap_link.js" 
                 ]
             ]
         }

@@ -148,7 +148,7 @@ The json path matches when one of:
 
 ### Multi handler
 
-A `handler/multi_notification_handler.js` is available to start multiple handler for each notification messages. The handlers to start are specified in a configuraton file that can be passed via the `config` parameter of an `handle_inbox`. In the commmand line tool `bin/ldn-inbox-server` the default location of such config file is `config/inbox_config.json` when processing an `@inbox`, and `config/outbox_config.json` when processing an `@outbox`.
+A `handler/multi_notification_handler.js` is available to start multiple handler for each notification messages. The handlers to start are specified in a configuration file that can be passed via the `config` parameter of an `handle_inbox`. In the commmand line tool `bin/ldn-inbox-server` the default location of such config file is `config/inbox_config.json` when processing an `@inbox`, and `config/outbox_config.json` when processing an `@outbox`.
 
 ### Offer memento handler
 

@@ -8,11 +8,11 @@
   "scripts": {
     "server": "npx ldn-inbox-server start-server",
     "demo-post": "curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/offer.jsonld' http://localhost:8000/inbox/",
-    "handle-inbox": "npx ldn-inbox-server handler @inbox -hn ./handler/notification_handler/accept.js",
-    "handle-outbox": "npx ldn-inbox-server handler @outbox -hn ./handler/notification_handler/send_notification.js",
-    "handle-eventlog": "npx ldn-inbox-server handler @inbox -hn handler/notification_handler/eventlog.js",
-    "handle-inbox-multi": "npx ldn-inbox-server handler @inbox -hn ./handler/notification_handler/multi.js",
-    "handle-outbox-multi": "npx ldn-inbox-server handler @outbox -hn ./handler/notification_handler/multi.js",
+    "handle-inbox": "npx ldn-inbox-server handler @inbox -hn @handler/notification_handler/accept.js",
+    "handle-outbox": "npx ldn-inbox-server handler @outbox -hn @handler/notification_handler/send_notification.js",
+    "handle-eventlog": "npx ldn-inbox-server handler @inbox -hn @handler/notification_handler/eventlog.js",
+    "handle-inbox-multi": "npx ldn-inbox-server handler @inbox -hn @handler/notification_handler/multi.js",
+    "handle-outbox-multi": "npx ldn-inbox-server handler @outbox -hn @handler/notification_handler/multi.js",
     "clean": "rm -rf error/* inbox/* outbox/* public/events/* public/events/log/* public/artifacts/artifact1 public/artifacts/artifact2 public/artifacts/*.jsonld*"
   },
   "bin": "./bin/ldn-inbox-server.js",
