@@ -21,12 +21,12 @@ async function handle({path,options,config}) {
     }
 
     if (!options['artifact']) {
-        logger.info(`no artifact found (ignonring this request)`);
+        logger.info(`no artifact found (ignoring this request)`);
         return { path, options, success: true };
     }
 
     if (!options['eventlog']) {
-        logger.info(`no artifact found (ignonring this request)`);
+        logger.info(`no artifact found (ignoring this request)`);
         return { path, options, success: true };
     }
 
