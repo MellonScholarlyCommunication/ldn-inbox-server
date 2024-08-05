@@ -11,12 +11,12 @@ async function handle({path,options,config}) {
     logger.info(`parsing notification ${path}`);
 
     if (! config) {
-        logger.error('no configuration found for offer_memento_notification_handler');
+        logger.error('no configuration found for offer_memento');
         return { path, options, success: false };
     }
    
     if (!config['actor'] || !config['target']) {
-        logger.error('no actor/target entry for notification_handler.eventlog configuration'); 
+        logger.error('no actor/target entry'); 
         return { path, options, success: false };
     }
 
