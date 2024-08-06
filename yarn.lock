@@ -178,10 +178,10 @@ md5@^2.3.0:
     crypt "0.0.2"
     is-buffer "~1.1.6"
 
-mellon-server@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/mellon-server/-/mellon-server-1.0.8.tgz#218f293a84c6b745f1cb59c634e4d7e08692331e"
-  integrity sha512-JooHrNe+1I9o1Mim//Ul0RZMXWc98/1oMv9BIYyEM24DwNXDCX3sfR/EwthNv/qMQ/+lu9RO+UuUzhiiWMck4Q==
+mellon-server@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/mellon-server/-/mellon-server-1.0.9.tgz#f0a5c3a42bec2f763390ae37e37d5ec111679433"
+  integrity sha512-mvLM/MyXEVMcGlNpVDTJ0clDirQMb17Yp0KimwU2taio/pQCjeC42dWGF873MoQeXch3f/wOuERnB24auwkdbA==
   dependencies:
     commander "^12.0.0"
     http "^0.0.1-security"

@@ -55,7 +55,35 @@ npx ldn-inbox-server handler @outbox -hn ./handler/send_notification_handler.js
 - `LDN_SERVER_JSON_SCHEMA` : notification JSON validation schema
 - `LDN_SERVER_BASEURL` : baseurl of the LDN inbox server
 - `LDN_SERVER_INBOX_GLOB` : glob of files to process in inbox directory
-- `LDN_SERVER_HAS_PUBLIC_INBOX` : if true, then public read access is allowed on inbox
+- `LDN_SERVER_HAS_PUBLIC_INBOX` : if true, then public read access is allowed on the inbox
+- `LDN_SERVER_HAS_WRITABLE_INBOX` : if true, then public write access is allowed on the inbox
+  
+## Multiple inboxes
+
+Instead of a single inbox, multiple inboxes can be configured by adding a JSON configuration file to the installation. The JSON file should contain a `registry` entry with contains an array of inbox configuration. An example:
+
+```
+{
+  "registry": [
+        { "path": "inbox/.*" , 
+          "with": {
+            "url": "inbox/",
+            "inbox": "./inbox",
+            "inboxPublic": 1,
+            "inboxWritable": 1,
+            "schema": "./config/schema1.json"
+        }},
+        { "path": "inbox2/.*" , 
+          "with": {
+            "url": "inbox2/",
+            "inbox": "./inbox2",
+            "inboxPublic": 1,
+            "inboxWritable": 0,
+            "schema": "./config/schema2.json"
+        }}
+    ]
+}
+```
 
 ## Extend
 
@@ -115,7 +143,7 @@ A handler can be started on any directory. E.g. a workflow might be:
 
 A handler that creates for an incoming notification an `Accept` notification in the `@outbox`.
 
-### Evenlog handler
+### Eventlog handler
 
 A handler that updates an event log with the incoming notification. 
 

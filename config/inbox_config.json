@@ -1,4 +1,12 @@
 {
+    "registry": [
+        { "path": "inbox2/.*" , "with": {
+            "url": "inbox2/",
+            "inbox": "./inbox2",
+            "inboxPublic": 1,
+            "inboxWritable": 0
+        }}
+    ],  
     "notification_handler": {
         "multi": {
             "handlers": [

@@ -2,7 +2,8 @@
 
 const fs = require('fs');
 const { program } = require('commander');
-const { inbox_server } = require('../lib/index');
+const { start_server } = require('mellon-server');
+const { doInbox }      = require('../lib/index');
 const { handle_inbox } = require('../lib/handler');
 require('dotenv').config();
 
@@ -20,6 +21,8 @@ const JSON_SCHEMA_PATH = process.env.LDN_SERVER_JSON_SCHEMA ?? './config/notific
 const INBOX_CONFIG = process.env.LDN_SERVER_INBOX_CONFIG;
 const OUTBOX_CONFIG = process.env.LDN_SERVER_OUTBOX_CONFIG;
 const HAS_PUBLIC = process.env.LDN_SERVER_HAS_PUBLIC_INBOX ?? 0;
+const HAS_WRITE = process.env.LDN_SERVER_HAS_WRITABLE_INBOX ?? 1;
+const OTHER_CONFIG = process.env.LDN_SERVER_OTHER_CONFIG;
 
 program
   .name('lnd-inbox-server')
@@ -29,6 +32,7 @@ program
   .command('start-server')
   .option('--host <host>','host',HOST)
   .option('--port <port>','port',PORT)
+  .option('--config <config>','config',OTHER_CONFIG)
   .option('--url <path>','path',INBOX_URL)
   .option('--base <url>','base url',INBOX_BASE_URL)
   .option('--inbox <inbox>','inbox',INBOX_PATH)
@@ -36,8 +40,45 @@ program
   .option('--schema <schema>','json schema',JSON_SCHEMA_PATH)
   .option('--registry <registry>','registry',null)
   .option('--inbox-public','public readable inbox',HAS_PUBLIC)
+  .option('--inbox-writeable','public writable inbox',HAS_WRITE)
   .action( (options) => {
-    inbox_server(options);
+      let registry = [];
+
+      // Add other (external defined) registry parts
+      if (options['registry']) {
+        const path = options['registry'];
+        let registry2;
+        if (typeof path === 'string' || path instanceof String) {
+            registry2 = JSON.parse(fs.readFileSync(path,{ encoding: 'utf-8'}));
+        }
+        else {
+            registry2 = path;
+        }
+        registry = registry.concat(registry2);
+      }
+
+      if (options['config'] && fs.existsSync(options['config'])) {
+          const config = JSON.parse(fs.readFileSync(options['config'], { encoding: 'utf-8'}));
+          if (config.registry) {
+             for (let i = 0 ; i < config.registry.length ; i++) {
+                const registry_item = config.registry[i];
+                registry_item['do'] = doInbox;
+                registry_item['with'] = {...options,...registry_item['with']};
+                registry = registry.concat(registry_item);
+             }
+          }
+      }
+      else {
+        registry = registry.concat({ path : `${options['url']}.*` , do: doInbox , with: options}); 
+      }
+   
+      start_server({
+        host: options['host'],
+        port: options['port'],
+        base: options['base'],
+        public: options['public'],
+        registry: registry
+      });
   });
 
 program
