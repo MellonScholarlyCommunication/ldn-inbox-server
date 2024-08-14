@@ -5,6 +5,7 @@ const { program } = require('commander');
 const { start_server } = require('mellon-server');
 const { doInbox }      = require('../lib/index');
 const { handle_inbox } = require('../lib/handler');
+const { parseConfig }  = require('../lib/util');
 require('dotenv').config();
 
 const HOST = process.env.LDN_SERVER_HOST ?? 'localhost';
@@ -58,7 +59,7 @@ program
       }
 
       if (options['config'] && fs.existsSync(options['config'])) {
-          const config = JSON.parse(fs.readFileSync(options['config'], { encoding: 'utf-8'}));
+          const config = parseConfig(options['config']);
           if (config.registry) {
              for (let i = 0 ; i < config.registry.length ; i++) {
                 const registry_item = config.registry[i];

@@ -1,4 +1,4 @@
-const { dynamic_handler , parseAsJSON } = require('../../lib/util.js');
+const { dynamic_handler , parseConfig } = require('../../lib/util.js');
 const logger = require('../../lib/util.js').getLogger();
 
 /**
@@ -8,7 +8,7 @@ const logger = require('../../lib/util.js').getLogger();
 async function handle({path,options}) {
     let success = false;
 
-    const config = parseAsJSON(options['config']);
+    const config = parseConfig(options['config']);
 
     if (! config) {
         logger.error('no configuration found for multi_notification_handler');
