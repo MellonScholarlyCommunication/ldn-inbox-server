@@ -1,4 +1,4 @@
-const { dynamic_handler , parseConfig } = require('../../lib/util.js');
+const { dynamic_handler , parseConfig , parseAsJSON } = require('../../lib/util.js');
 const logger = require('../../lib/util.js').getLogger();
 
 /**
@@ -14,6 +14,8 @@ async function handle({path,options}) {
         logger.error('no configuration found for multi_notification_handler');
         return { path, options, success: false };
     }
+
+    const notification = parseAsJSON(path);
 
     const handlers = config['notification_handler']?.['multi']?.['handlers'];
 
@@ -55,7 +57,7 @@ async function handle({path,options}) {
                     throw new Error(`failed to load ${step}`);
                 }
 
-                const result = await handler({path,options,config});
+                const result = await handler({path,options,config,notification});
             
                 if (result['success']) {
                     logger.info(`workflow[${i}] : finished ${step}`);
