@@ -43,21 +43,28 @@ async function handle({path,options,config}) {
                         }
                         else {
                             // Nope ..
+                            logger.error(`found ${path} not includes ${value}`);
                         }
                     }
                     else if (typeof jsonValue === 'string' || typeof jsonValue === 'number') {
                         if (jsonValue === value) {
                             // Yup ..
-                            logger.info(`found ${path} === ${value} `)
+                            logger.info(`found ${path} === ${value} `);
                             matchCount++
                         }
                         else {
                             // Nope ..
+                            logger.error(`found ${path} !== ${value}`);
                         }
                     }
                     else {
                         // Nope ..
+                        logger.error(`found ${path} unexpected value`);
                     }
+                }
+                else {
+                    // Nope ..
+                    logger.error(`no ${path} found`);
                 }
             }
             if (matchCount == anyOf[i].length) {
