@@ -100,18 +100,24 @@ program
     switch (box) {
       case '@inbox':
         box = INBOX_PATH;
-        if (!options['config'] && fs.existsSync(INBOX_CONFIG)) {
-            options['config'] = INBOX_CONFIG
+        if (!options['config']) {
+          options['config'] = INBOX_CONFIG
         }
         break;
       case '@outbox':
         box = OUTBOX_PATH;
-        if (!options['config'] && fs.existsSync(OUTBOX_CONFIG)) {
+        if (!options['config']) {
           options['config'] = OUTBOX_CONFIG
-      }
+        }
         break;
     }
-    await handle_inbox(box,options);
+
+    if (! fs.existsSync(options['config'])) {
+      console.error(`can't open ${options['config']}`);
+    }
+    else {
+      await handle_inbox(box,options);
+    }
   });
 
 program.parse();
