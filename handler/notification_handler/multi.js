@@ -67,21 +67,24 @@ async function handle({path,options}) {
                     thisWorkflow = false;
 
                     if (options['fallback']) {
-                        logger.debug(`loading fallback ${options['fallback']}`);
-                        const fallback = dynamic_handler(options['fallback'],null);
+                        const fallback_id = options['fallback']['id'];
+                        const fallback_options = options['fallback'];
+
+                        logger.debug(`loading fallback ${fallback_id}`);
+                        const fallback = dynamic_handler(fallback_id,null);
 
                         if (!fallback) {
-                            throw new Error(`failed to load ${options['fallback']}`);
+                            throw new Error(`failed to load ${fallback_id}`);
                         }
 
-                        logger.info(`workflow[${i}] : starting ${options['fallback']}`);
-                        const fallback_result = await fallback({path,options,config,notification});
+                        logger.info(`workflow[${i}] : starting ${fallback_id}`);
+                        const fallback_result = await fallback({path,options,fallback_options,notification});
 
                         if (fallback_result['success']) {
-                            logger.info(`workflow[${i}] : finished ${options['fallback']}`);
+                            logger.info(`workflow[${i}] : finished ${fallback_id}`);
                         }
                         else {
-                            logger.error(`workflow[${i}] : failed ${options['fallback']}`);
+                            logger.error(`workflow[${i}] : failed ${fallback_id}`);
                         }
                     }
                     else {

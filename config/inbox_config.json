@@ -42,7 +42,9 @@
                 [
                   {
                     "id": "@handler/notification_handler/on_error.js",
-                    "handler": "@handler/notification_handler/nothing.js"
+                    "handler": {
+                        "id" : "@handler/notification_handler/nothing.js"
+                    }
                   },
                   { 
                     "id": "@handler/notification_handler/jsonpath_filter.js",

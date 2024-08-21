@@ -12,7 +12,7 @@ async function handle({path,options,config}) {
             return { path, options, success: true };
         }
 
-        logger.info(`setting fallback to ${fallback}`);
+        logger.info(`setting fallback to ${fallback.id}`);
 
         options['fallback'] = fallback;
 
