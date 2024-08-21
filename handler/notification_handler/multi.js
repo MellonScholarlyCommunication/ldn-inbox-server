@@ -65,6 +65,29 @@ async function handle({path,options}) {
                 else {
                     logger.error(`workflow[${i}] : failed ${step}`);
                     thisWorkflow = false;
+
+                    if (options['fallback']) {
+                        logger.debug(`loading fallback ${options['fallback']}`);
+                        const fallback = dynamic_handler(options['fallback'],null);
+
+                        if (!fallback) {
+                            throw new Error(`failed to load ${options['fallback']}`);
+                        }
+
+                        logger.info(`workflow[${i}] : starting ${options['fallback']}`);
+                        const fallback_result = await fallback({path,options,config,notification});
+
+                        if (fallback_result['success']) {
+                            logger.info(`workflow[${i}] : finished ${options['fallback']}`);
+                        }
+                        else {
+                            logger.error(`workflow[${i}] : failed ${options['fallback']}`);
+                        }
+                    }
+                    else {
+                        logger.debug(`no fallBack defined`);                       
+                    }
+
                     break;
                 }
             }
@@ -81,6 +104,9 @@ async function handle({path,options}) {
         else {
             workflow_errors++;
         }
+
+        // Each workflow needs to install its own fallBack
+        delete options['fallback'];
     }
 
     if (handlers.length > 0 && workflow_success > 0) {

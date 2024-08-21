@@ -176,7 +176,17 @@ The json path matches when one of:
 
 ### Multi handler
 
-A `handler/multi_notification_handler.js` is available to start multiple handler for each notification messages. The handlers to start are specified in a configuration file that can be passed via the `config` parameter of an `handle_inbox`. In the commmand line tool `bin/ldn-inbox-server` the default location of such config file is `config/inbox_config.json` when processing an `@inbox`, and `config/outbox_config.json` when processing an `@outbox`.
+A `handler/multi_notification_handler.js` is available to start multiple handler for each notification messages. The handlers to start are specified in a configuration file that can be passed via the `config` parameter of an `handle_inbox`. For the commmand line tool `bin/ldn-inbox-server` the default location of such config file is `config/inbox_config.json` when processing an `@inbox`, and `config/outbox_config.json` when processing an `@outbox`.
+
+The multi handler requires a configuration file with properties `notification_handler.multi.handlers` which is an array of array. Each outer array defines a list of handlers that should be executed sequentially on a notification until one handler returns a `false` response or the last handler returns a `true` response.
+
+Each handler is defined by a hash containing as `id` property the path to the handler and optionally other property keys that will be passed to the handlers in the `config` section.
+
+Optionally when a `fallback` handler is defined as option it will be attempted when a handler in a sequence returns a `false` response.
+
+### On Error handler
+
+A handler that sets the `fallback` for a workflow sequence.
 
 ### Offer memento handler
 
