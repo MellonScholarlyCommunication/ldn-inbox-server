@@ -89,12 +89,13 @@ program
   .option('--outbox <outbox>','outbox',OUTBOX_PATH)
   .option('--public <public>','public',PUBLIC_PATH)
   .option('--error <errbox>','errbox',ERROR_PATH)
-  .option('--loop <seconds>', 'run in a loop',0)
+  .option('--loop', 'run in a loop')
   .option('--batch_size <num>','batch size to process',INBOX_BATCH_SIZE)
   .option('--glob <glob>','files to process in inbox',INBOX_GLOB)
   .option('--config <path>','config file for handlers')
   .option('-hi,--inbox_handler <handler>','inbox handler')
   .option('-hn,--notification_handler <handler>','notification handler')
+  .option('-s,--single','handle this one specific notification')
   .argument('<box>','box to process')
   .action( async(box,options) => {
     switch (box) {
