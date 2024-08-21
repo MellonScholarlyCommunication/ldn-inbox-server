@@ -3,7 +3,7 @@ const logger = require('../../lib/util.js').getLogger();
 /**
  * Handler that does nothing (debug purposes)
  */
-async function handle({path,options,config}) {
+async function handle({path,options,config,notification}) {
     try {
         return { path, options, success: true };
     }

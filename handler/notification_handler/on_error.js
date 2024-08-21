@@ -14,7 +14,7 @@ async function handle({path,options,config}) {
 
         logger.info(`setting fallback to ${fallback.id}`);
 
-        options['fallback'] = fallback;
+        options['fallback'] = structuredClone(fallback);
 
         return { path, options, success: true };
     }
