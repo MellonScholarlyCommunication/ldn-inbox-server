@@ -7,8 +7,6 @@ const logger = require('../../lib/util.js').getLogger();
  * Demonstration event log handler
  */
 async function handle({path,options,config}) {
-    logger.info(`parsing notification ${path}`);
-
     const eventlog = options['eventlog'];
 
     if (!eventlog) {

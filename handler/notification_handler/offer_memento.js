@@ -8,8 +8,6 @@ const logger = require('../../lib/util.js').getLogger();
  * archivation of the event log.
  */
 async function handle({path,options,config}) {
-    logger.info(`parsing notification ${path}`);
-
     if (! config) {
         logger.error('no configuration found for offer_memento');
         return { path, options, success: false };

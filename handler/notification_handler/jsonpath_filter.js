@@ -7,8 +7,6 @@ const logger = require('../../lib/util.js').getLogger();
  * matches a configurable list
  */
 async function handle({path,options,config}) {
-    logger.info(`parsing notification ${path}`);
-    
     if (! config) {
         logger.error('no configuration found for eventlog_notification_handler');
         return { path, options, success: false };

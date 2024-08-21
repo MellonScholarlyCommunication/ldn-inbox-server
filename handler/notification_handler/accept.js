@@ -9,8 +9,6 @@ const logger = require('../../lib/util.js').getLogger();
  * it in the outbox container.
  */
 async function handle({path,options,config}) {
-    logger.info(`parsing notification ${path}`);
-    
     try {
         const json = parseAsJSON(path);
         

@@ -6,8 +6,6 @@ const logger = require('../../lib/util.js').getLogger();
  * message contains an artifact that is known to the data node
  */
 async function handle({path,options,config}) {
-    logger.info(`parsing notification ${path}`);
-    
     try {
         const json = parseAsJSON(path);
         
