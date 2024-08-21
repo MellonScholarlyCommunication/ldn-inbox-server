@@ -1,12 +1,11 @@
 const jp = require('jsonpath');
-const { parseAsJSON } = require('../../lib/util.js');
 const logger = require('../../lib/util.js').getLogger();
 
 /**
  * Demonstration notification handler, that checks if the notification
  * matches a configurable list
  */
-async function handle({path,options,config}) {
+async function handle({path,options,config,notification}) {
     if (! config) {
         logger.error('no configuration found for eventlog_notification_handler');
         return { path, options, success: false };
@@ -19,7 +18,6 @@ async function handle({path,options,config}) {
 
     try {
         const anyOf = config['anyOf'];
-        const json  = parseAsJSON(path);
         
         let isOk = false;
 
@@ -30,7 +28,7 @@ async function handle({path,options,config}) {
                 const path  = anyPart['path'];
                 const value = anyPart['value'];
                 
-                const jsonValue = jp.query(json,path);
+                const jsonValue = jp.query(notification,path);
 
                 if (jsonValue !== null || jsonValue !== undefined) {
                     if (Array.isArray(jsonValue)) {

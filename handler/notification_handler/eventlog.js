@@ -6,7 +6,7 @@ const logger = require('../../lib/util.js').getLogger();
 /**
  * Demonstration event log handler
  */
-async function handle({path,options,config}) {
+async function handle({path,options,config,notification}) {
     if (! config) {
         logger.error('no configuration found for eventlog_notification_handler');
         return { path, options, success: false };

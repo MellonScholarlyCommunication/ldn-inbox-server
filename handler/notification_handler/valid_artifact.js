@@ -1,21 +1,19 @@
-const { ldPropertyAsId , parseArtifact, parseAsJSON } = require('../../lib/util.js');
+const { ldPropertyAsId , parseArtifact } = require('../../lib/util.js');
 const logger = require('../../lib/util.js').getLogger();
 
 /**
  * Demonstration notification handler, that checks if the notification
  * message contains an artifact that is known to the data node
  */
-async function handle({path,options,config}) {
+async function handle({path,options,config,notification}) {
     try {
-        const json = parseAsJSON(path);
-        
         let artifact = undefined;
 
-        if (ldPropertyAsId(json['context'])) {
-            artifact = ldPropertyAsId(json['context']);
+        if (ldPropertyAsId(notification['context'])) {
+            artifact = ldPropertyAsId(notification['context']);
         }
-        else if (ldPropertyAsId(json['object'])) {
-            artifact = ldPropertyAsId(json['object']);
+        else if (ldPropertyAsId(notification['object'])) {
+            artifact = ldPropertyAsId(notification['object']);
         }
         else {
             logger.error(`failed to find valid context or object`);

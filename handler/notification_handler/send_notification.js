@@ -1,25 +1,24 @@
 const logger = require('../../lib/util.js').getLogger();
-const { sendNotification , parseAsJSON } = require('../../lib/util.js');
+const { sendNotification } = require('../../lib/util.js');
 
 /**
  * Demonstration notification handler that sends a notification to a
  * target inbox. 
  */
-async function handle({path,options,config}) {
+async function handle({path,options,config,notification}) {
     try {
-        const data = parseAsJSON(path);
-        const type = data['type'];
+        const type = notification['type'];
         let inbox;
 
-        if (data['target'] && data['target']['inbox']) {
-            inbox = data['target']['inbox'];
+        if (notification['target'] && notification['target']['inbox']) {
+            inbox = notification['target']['inbox'];
         }
         else {
             throw new Error(`no target.inbox defined for ${path}`);
         }
 
         logger.info(`Sending ${type} to ${inbox}`);
-        await sendNotification(inbox, data);
+        await sendNotification(inbox, notification);
 
         return { path, options, success: true };
     }

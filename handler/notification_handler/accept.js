@@ -1,6 +1,5 @@
 const fs = require('fs');
 const md5 = require('md5');
-const { parseAsJSON } = require('../../lib/util.js');
 const logger = require('../../lib/util.js').getLogger();
 
 /**
@@ -8,15 +7,13 @@ const logger = require('../../lib/util.js').getLogger();
  * notification for each incoming notification message and stores
  * it in the outbox container.
  */
-async function handle({path,options,config}) {
+async function handle({path,options,config,notification}) {
     try {
-        const json = parseAsJSON(path);
-        
-        const id = json['id'];
-        const object = json['object'];
-        const actor_id = json['actor']['id'];
-        const actor_type = json['actor']['type'];
-        const actor_inbox = json['actor']['inbox'];
+        const id = notification['id'];
+        const object = notification['object'];
+        const actor_id = notification['actor']['id'];
+        const actor_type = notification['actor']['type'];
+        const actor_inbox = notification['actor']['inbox'];
 
         const data = JSON.stringify({
             type: 'Accept',
@@ -27,7 +24,7 @@ async function handle({path,options,config}) {
             },
             context: object,
             inReplyTo: id ,
-            object: json,
+            object: notification,
             target: {
                 id: actor_id ,
                 type: actor_type ,

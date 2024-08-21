@@ -1,12 +1,11 @@
 const fs = require('fs');
 const jp = require('jsonpath');
-const { parseAsJSON } = require('../../lib/util.js');
 const logger = require('../../lib/util.js').getLogger();
 
 /**
  * Demonstration event log handler
  */
-async function handle({path,options,config}) {
+async function handle({path,options,config,notification}) {
     const eventlog = options['eventlog'];
 
     if (!eventlog) {
@@ -15,11 +14,9 @@ async function handle({path,options,config}) {
     }
 
     try {
-        const json = parseAsJSON(path);
-
         const meta = parseAsJSON(`${eventlog['path']}.meta`);
      
-        const timemap = jp.query(json,'$.object.id');
+        const timemap = jp.query(notification,'$.object.id');
         const relation = `<${timemap}> ; rel="timemap"`;
 
         let links = meta['Link'] || [];
