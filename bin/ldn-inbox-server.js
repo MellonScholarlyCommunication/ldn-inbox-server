@@ -63,7 +63,9 @@ program
           if (config.registry) {
              for (let i = 0 ; i < config.registry.length ; i++) {
                 const registry_item = config.registry[i];
-                registry_item['do'] = doInbox;
+                if (! registry_item['do']) {
+                  registry_item['do'] = doInbox;
+                }
                 registry_item['with'] = {...options,...registry_item['with']};
                 registry = registry.concat(registry_item);
              }
