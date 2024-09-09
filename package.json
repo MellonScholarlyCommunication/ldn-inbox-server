@@ -31,7 +31,7 @@
     "jsonpath": "^1.1.1",
     "jsonschema": "^1.4.1",
     "md5": "^2.3.0",
-    "mellon-server": "^1.0.9",
+    "mellon-server": "^1.1.0",
     "node-fetch": "1.7.3",
     "piscina": "^4.4.0",
     "proper-lockfile": "^4.1.2",
