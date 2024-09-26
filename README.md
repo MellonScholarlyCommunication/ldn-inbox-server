@@ -231,7 +231,46 @@ in `public/artifacts-example`. Move this directory tp `public/artifacts` to get 
 - Each artifact requires at least a `.meta` file with the `X-Artifact` header set to `true` to be recognized by the software as an artifact
 - Each artifact should update the `Link-Template` header in the `.meta` file
 - The config files in `config/inbox_config.json` and `config/outbox_config.json` define the location of the possible event logs for the artifact
-  
+
+## API
+
+### getLogger()
+
+Returns a LOG4JS logger instance.
+
+### fetchOriginal(url) 
+
+Resolve the url and return the textual body.
+
+### backOff_fetch(url,options)
+
+Return the result of `fetch(url,options)` (tries many times untill the server responds).
+
+### sendNotification(url,payload,options)
+
+Send to `url` the payload uptionally a `fetch` can be provided in the options.
+
+### moveTo(oldPath, newPath)
+
+Move a file from an oldPath to a newPath .
+
+### parseAsJSON(path)
+
+Parse the path into a JSON document (or return null when failed).
+
+### generateId()
+
+Generate a uuid URN.
+
+### generatePublished()
+
+Generate a ISO8601 date time string.
+
+### parseConfig(path)
+
+Parse a path containing `.json` | `.jsonld` | `.json5` | `.yaml` | `.yml` into a
+JavaScript object.
+
 ## See also
 
 - [mellon-server](https://www.npmjs.com/package/mellon-server)
