@@ -201,6 +201,8 @@ Requires configuration properties:
 
 A handler to send notification that live in the `@outbox` via the LDN protocol to the LDN `target`.
 
+If the environoment `DEMO_MODE` is set, no real notifications will be sent.
+
 ### Type handler
 
 A handler that accepts any notification with a type that matches one of the `anyOf` types.
