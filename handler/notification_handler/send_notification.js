@@ -18,7 +18,14 @@ async function handle({path,options,config,notification}) {
         }
 
         logger.info(`Sending ${type} to ${inbox}`);
-        await sendNotification(inbox, notification);
+
+        if (process.env.DEMO_MODE) {
+            logger.info(`**demo mode** I will not do anything`);
+            return { path, options, success: true }; 
+        }
+        else {
+            await sendNotification(inbox, notification);
+        }
 
         return { path, options, success: true };
     }
