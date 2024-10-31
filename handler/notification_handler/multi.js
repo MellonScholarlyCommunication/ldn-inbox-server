@@ -4,6 +4,10 @@ const logger = require('../../lib/util.js').getLogger();
 /**
  * Demonstration notification handler that start multiple notification handlers.
  * Requires a config file that specifies which handlers to start. 
+ * The configuration file requires a $.notification_handler.multi.handler entry
+ * which is an array of arrays. The outer array defines independent 'workflows' that
+ * need to run on an notifiction message. The inner array defines the steps: a
+ * sequence of handlers that need to success.
  */
 async function handle({path,options}) {
     let success = false;
@@ -29,13 +33,13 @@ async function handle({path,options}) {
     let workflow_success = 0;
     let workflow_errors = 0;
 
-    for (let i = 0 ; i < handlers.length ; i++) {
+    OUTER: for (let i = 0 ; i < handlers.length ; i++) {
         const workflow = handlers[i];
 
         let thisWorkflow = true;
 
         try {
-            for (let j = 0 ; j < workflow.length ; j++) {
+            INNER: for (let j = 0 ; j < workflow.length ; j++) {
                 let step = undefined;
                 let config = undefined;
 
@@ -59,7 +63,11 @@ async function handle({path,options}) {
 
                 const result = await handler({path,options,config,notification});
             
-                if (result['success']) {
+                if (result['break']) {
+                    logger.info(`workflow[${i}] : breaks ${step} with ${result['success']}`);
+                    thisWorkflow = result['success'];
+                }
+                else if (result['success']) {
                     logger.info(`workflow[${i}] : finished ${step}`);
                 }
                 else {
@@ -91,7 +99,7 @@ async function handle({path,options}) {
                         logger.debug(`no fallBack defined`);                       
                     }
 
-                    break;
+                    break INNER;
                 }
             }
         }
