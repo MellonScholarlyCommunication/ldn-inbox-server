@@ -19,7 +19,7 @@ async function handle({path,options,config,notification}) {
 
         logger.info(`Sending ${type} to ${inbox}`);
 
-        if (process.env.DEMO_MODE) {
+        if (process.env.DEMO_MODE && process.env.DEMO_MODE.includes('NO_NOTIFICATIONS')) {
             logger.info(`**demo mode** I will not do anything`);
             return { path, options, success: true }; 
         }
