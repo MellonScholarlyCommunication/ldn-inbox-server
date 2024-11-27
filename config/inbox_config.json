@@ -27,7 +27,7 @@
                  },
                  {
                     "id": "@handler/notification_handler/offer_memento.js",
-                    "$sequential": true,
+                    "$lock": true,
                     "actor": {
                         "id": "http://localhost:8000/profile/card#me" ,
                         "inbox": "http://localhost:8000/inbox/" ,

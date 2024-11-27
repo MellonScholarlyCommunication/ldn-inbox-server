@@ -13,8 +13,8 @@ const md5 = require('md5');
  * need to run on an notifiction message. The inner array defines the steps: a
  * sequence of handlers that need to success.
  * 
- * Optionally a configuration for a handler can contain the property `$sequential` set
- * to true to force the sequential execution of this handler.
+ * Optionally a configuration for a handler can contain the property `$lock` set
+ * to true to force the singular execution of this handler.
  */
 async function handle({path,options,_,notification}) {
     let success = false;
@@ -70,7 +70,11 @@ async function handle({path,options,_,notification}) {
                     return await handler({path,options,config,notification});
                 });
             
-                if (result['break']) {
+                if (! result) {
+                    logger.error(`workflow[${i}] : failed ${step} (no results)`);
+                    thisWorkflow = result['failure'];
+                }
+                else if (result['break']) {
                     logger.info(`workflow[${i}] : breaks ${step} with ${result['success']}`);
                     thisWorkflow = result['success'];
                 }
@@ -140,8 +144,10 @@ async function handle({path,options,_,notification}) {
 }
 
 async function maybeLock(step,config,callback) {
-    if (config['$sequential']) {
-        const lockDir = process.env.LDN_SERVER_LOCKDIR || '.lockdir';
+    if (config['$lock']) {
+        const lockDir = process.env.LDN_SERVER_LOCK_DIR || '.lockdir';
+        const lockStale = process.env.LDN_SERVER_LOCK_STALE || 10000;
+        const lockRetries = process.env.LDN_SERVER_LOCK_RETRIES || 10;
 
         if (! fs.existsSync(lockDir)) {
             logger.debug(`creating lock dir ${lockDir}`);
@@ -155,15 +161,22 @@ async function maybeLock(step,config,callback) {
             fs.writeFileSync(lockFile,'');
         }
         
-        logger.debug(`locking ${step} using ${lockFile}`);
+        let result = null;
 
-        const unlock = await lockfile.lock(lockFile);
+        try {
+            logger.debug(`locking ${step} using ${lockFile}`);
 
-        const result = await callback();
+            const unlock = await lockfile.lock(lockFile, { stale : lockStale , retries: lockRetries });
 
-        logger.debug(`unlocking ${step} from ${lockFile}`);
+            result = await callback();
 
-        unlock();
+            logger.debug(`unlocking ${step} from ${lockFile}`);
+
+            unlock();
+        }
+        catch (e) {
+            logger.error(`lock failed: ${e.message}`);
+        }
 
         return result;
     }
