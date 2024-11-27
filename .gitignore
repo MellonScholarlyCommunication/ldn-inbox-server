@@ -6,4 +6,5 @@ public/events/**
 public/artifacts/**
 public/index.html
 .env
+.lockdir
 ecosystem.config.js

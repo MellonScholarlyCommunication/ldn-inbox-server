@@ -1,6 +1,6 @@
 # ldn-inbox-server
 
-An experimental LDN inbox server for [Event Notification](https://www.eventnotifications.net) messages.
+An experimental [LDN](https://www.w3.org/TR/ldn/) inbox server for [Event Notification](https://www.eventnotifications.net) messages.
 
 ## Install
 
@@ -55,6 +55,7 @@ npx ldn-inbox-server handler @outbox -hn ./handler/send_notification_handler.js
 - `LDN_SERVER_INBOX_GLOB` : glob of files to process in inbox directory
 - `LDN_SERVER_HAS_PUBLIC_INBOX` : if true, then public read access is allowed on the inbox
 - `LDN_SERVER_HAS_WRITABLE_INBOX` : if true, then public write access is allowed on the inbox
+- `LDN_SERVER_LOCKDIR` : directory to store optional lock files for handler
   
 ## Multiple inboxes
 

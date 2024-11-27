@@ -1,5 +1,9 @@
 const { dynamic_handler , parseConfig , parseAsJSON } = require('../../lib/util.js');
 const logger = require('../../lib/util.js').getLogger();
+const lockfile = require('proper-lockfile');
+const fs = require('fs');
+const fsPath = require('path');
+const md5 = require('md5');
 
 /**
  * Demonstration notification handler that start multiple notification handlers.
@@ -8,20 +12,21 @@ const logger = require('../../lib/util.js').getLogger();
  * which is an array of arrays. The outer array defines independent 'workflows' that
  * need to run on an notifiction message. The inner array defines the steps: a
  * sequence of handlers that need to success.
+ * 
+ * Optionally a configuration for a handler can contain the property `$sequential` set
+ * to true to force the sequential execution of this handler.
  */
-async function handle({path,options}) {
+async function handle({path,options,_, notification}) {
     let success = false;
 
-    const config = parseConfig(options['config']);
+    const mainConfig = parseConfig(options['config']);
 
-    if (! config) {
+    if (! mainConfig) {
         logger.error('no configuration found for multi_notification_handler');
         return { path, options, success: false };
     }
 
-    const notification = parseAsJSON(path);
-
-    const handlers = config['notification_handler']?.['multi']?.['handlers'];
+    const handlers = mainConfig['notification_handler']?.['multi']?.['handlers'];
 
     if (! handlers) {
         logger.error('no notification_handler.multi.handlers key in configuration file');
@@ -61,7 +66,9 @@ async function handle({path,options}) {
                     throw new Error(`failed to load ${step}`);
                 }
 
-                const result = await handler({path,options,config,notification});
+                const result = await maybeLock(step,config, async() => {
+                    return await handler({path,options,config,notification});
+                });
             
                 if (result['break']) {
                     logger.info(`workflow[${i}] : breaks ${step} with ${result['success']}`);
@@ -130,6 +137,40 @@ async function handle({path,options}) {
     logger.info(`finished multi handler`);
 
     return { path, options, success: success };
-}   
+}
+
+async function maybeLock(step,config,callback) {
+    if (config['$sequential']) {
+        const lockDir = process.env.LDN_SERVER_LOCKDIR || '.lockdir';
+
+        if (! fs.existsSync(lockDir)) {
+            logger.debug(`creating lock dir ${lockDir}`);
+            fs.mkdirSync(lockDir);
+        }
+
+        const lockFile = fsPath.join(lockDir,md5(step));
+
+        if (! fs.existsSync(lockFile)) {
+            logger.debug(`creating lock file ${lockFile}`);
+            fs.writeFileSync(lockFile,'');
+        }
+        
+        logger.debug(`locking ${step} using ${lockFile}`);
+
+        const unlock = await lockfile.lock(lockFile);
+
+        const result = await callback();
+
+        logger.debug(`unlocking ${step} from ${lockFile}`);
+
+        unlock();
+
+        return result;
+    }
+    else {
+        logger.trace(`asynchronous ${step}`);
+        return await callback();
+    }
+}
 
 module.exports = { handle };
