@@ -1,6 +1,6 @@
 {
   "name": "ldn-inbox-server",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "description": "A demonstration Event Notifications Inbox server",
   "main": "lib/index.js",
   "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",
@@ -14,7 +14,7 @@
     "handle-inbox-multi": "npx ldn-inbox-server handler @inbox -hn @handler/notification_handler/multi.js",
     "handle-outbox-multi": "npx ldn-inbox-server handler @outbox -hn @handler/notification_handler/multi.js",
     "handle-inbox-multi-loop": "npx ldn-inbox-server handler @inbox -hn @handler/notification_handler/multi.js --loop",
-    "clean": "rm -rf error/* inbox/* outbox/* public/events/* public/events/log/* public/artifacts/artifact1 public/artifacts/artifact2 public/artifacts/*.jsonld*"
+    "real-clean": "rm -rf error/* inbox/* outbox/* public/events/* public/events/log/* public/artifacts/artifact1 public/artifacts/artifact2 public/artifacts/*.jsonld*"
   },
   "bin": "./bin/ldn-inbox-server.js",
   "keywords": [
