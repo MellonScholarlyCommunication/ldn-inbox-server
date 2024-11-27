@@ -97,7 +97,7 @@ program
   .option('--config <path>','config file for handlers')
   .option('-hi,--inbox_handler <handler>','inbox handler')
   .option('-hn,--notification_handler <handler>','notification handler')
-  .option('-s,--single','handle this one specific notification')
+  .option('-s,--single <notification>','handle this one specific notification')
   .argument('<box>','box to process')
   .action( async(box,options) => {
     switch (box) {

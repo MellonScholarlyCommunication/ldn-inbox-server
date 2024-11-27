@@ -16,7 +16,7 @@ const md5 = require('md5');
  * Optionally a configuration for a handler can contain the property `$sequential` set
  * to true to force the sequential execution of this handler.
  */
-async function handle({path,options,_, notification}) {
+async function handle({path,options,_,notification}) {
     let success = false;
 
     const mainConfig = parseConfig(options['config']);
