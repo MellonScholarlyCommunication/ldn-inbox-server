@@ -272,6 +272,26 @@ Generate a ISO8601 date time string.
 Parse a path containing `.json` | `.jsonld` | `.json5` | `.yaml` | `.yml` into a
 JavaScript object.
 
+## Docker
+
+Pull 
+
+```
+docker pull hochstenbach/ldn-inbox-server:v0.0.1
+```
+
+```
+docker run -p 8000:8000 hochstenbach/ldn-inbox-server:v0.0.1
+```
+
+Post a notification:
+
+```
+curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@examples/offer.jsonld' http://localhost:8000/inbox/
+```
+
+Check the inbox: http://localhost:8000/inbox/
+
 ## See also
 
 - [mellon-server](https://www.npmjs.com/package/mellon-server)

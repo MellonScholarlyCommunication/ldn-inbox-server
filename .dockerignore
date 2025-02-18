@@ -1,0 +1,10 @@
+node_modules
+npm-debug.log
+Dockerfile
+.env
+.dockerignore
+.git
+.gitignore
+ecosystem.config.js
+output/*.jsonld
+inbox/*.jsonld
