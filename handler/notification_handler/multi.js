@@ -38,10 +38,18 @@ async function handle({path,options,_,notification}) {
     let workflow_success = 0;
     let workflow_errors = 0;
 
+    // TODO: need a better solution for this 
+    // Create original copy of the options, some handler could 
+    // mess with these options and we restore the original after every
+    // workflow run :P'''
+    const options_original = structuredClone(options);
+
     OUTER: for (let i = 0 ; i < handlers.length ; i++) {
         const workflow = handlers[i];
 
         let thisWorkflow = true;
+
+        options = structuredClone(options_original);
 
         try {
             INNER: for (let j = 0 ; j < workflow.length ; j++) {
