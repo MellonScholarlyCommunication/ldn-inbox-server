@@ -181,11 +181,17 @@ The multi handler requires a configuration file with properties `notification_ha
 
 Each handler is defined by a hash containing as `id` property the path to the handler and optionally other property keys that will be passed to the handlers in the `config` section.
 
-Optionally when a `fallback` handler is defined as option it will be attempted when a handler in a sequence returns a `false` response.
+Optionally when a `fallback` handler is defined as option it will be attempted when a handler in a sequence returns a `false` response. See On Error handler.
+
+Optionally, when a handler configuration includes a `$lock` property set to `true`, the handler will generate a lock file to ensure that only a single instance of the handler runs within an LDN inbox processing system.
 
 ### On Error handler
 
 A handler that sets the `fallback` for a workflow sequence.
+
+Requires configuration properties:
+
+- `handler` : handler configuration to start when a workflow results in an error
 
 ### Offer memento handler
 

@@ -10,7 +10,7 @@ const md5 = require('md5');
  * Requires a config file that specifies which handlers to start. 
  * The configuration file requires a $.notification_handler.multi.handler entry
  * which is an array of arrays. The outer array defines independent 'workflows' that
- * need to run on an notifiction message. The inner array defines the steps: a
+ * need to run on an notification message. The inner array defines the steps: a
  * sequence of handlers that need to success.
  * 
  * Optionally a configuration for a handler can contain the property `$lock` set
