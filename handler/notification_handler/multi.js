@@ -85,6 +85,7 @@ async function handle({path,options,_,notification}) {
                 else if (result['break']) {
                     logger.info(`workflow[${i}] : breaks ${step} with ${result['success']}`);
                     thisWorkflow = result['success'];
+                    break INNER;
                 }
                 else if (result['success']) {
                     logger.info(`workflow[${i}] : finished ${step}`);
