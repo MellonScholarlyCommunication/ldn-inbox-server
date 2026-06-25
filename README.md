@@ -55,6 +55,9 @@ npx ldn-inbox-server handler @outbox -hn ./handler/send_notification_handler.js
 - `LDN_SERVER_INBOX_GLOB` : glob of files to process in inbox directory
 - `LDN_SERVER_HAS_PUBLIC_INBOX` : if true, then public read access is allowed on the inbox
 - `LDN_SERVER_HAS_WRITABLE_INBOX` : if true, then public write access is allowed on the inbox
+- `LDN_SERVER_MAX_UPLOAD_SIZE` : max POST body size in bytes (0 or unset = unlimited); fallback when no reverse proxy enforces a limit
+- `LDN_SERVER_RATE_LIMIT` : max POST requests per client IP per window (0 or unset = unlimited); fallback when no reverse proxy enforces a limit
+- `LDN_SERVER_RATE_WINDOW` : rate limit window in seconds (default 60)
 - `LDN_SERVER_LOCKDIR` : directory to store optional lock files for handler
   
 ## Multiple inboxes

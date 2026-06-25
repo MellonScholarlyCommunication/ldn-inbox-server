@@ -23,6 +23,9 @@ const INBOX_CONFIG = process.env.LDN_SERVER_INBOX_CONFIG;
 const OUTBOX_CONFIG = process.env.LDN_SERVER_OUTBOX_CONFIG;
 const HAS_PUBLIC = process.env.LDN_SERVER_HAS_PUBLIC_INBOX ?? 0;
 const HAS_WRITE = process.env.LDN_SERVER_HAS_WRITABLE_INBOX ?? 1;
+const MAX_UPLOAD_SIZE = process.env.LDN_SERVER_MAX_UPLOAD_SIZE;
+const RATE_LIMIT = process.env.LDN_SERVER_RATE_LIMIT;
+const RATE_WINDOW = process.env.LDN_SERVER_RATE_WINDOW;
 const OTHER_CONFIG = process.env.LDN_SERVER_OTHER_CONFIG;
 
 program
@@ -42,6 +45,9 @@ program
   .option('--registry <registry>','registry',null)
   .option('--inbox-public','public readable inbox',HAS_PUBLIC)
   .option('--inbox-writeable','public writable inbox',HAS_WRITE)
+  .option('--max-upload-size <bytes>','max POST body size in bytes (0 = unlimited)',MAX_UPLOAD_SIZE)
+  .option('--rate-limit <num>','max POST requests per IP per window (0 = unlimited)',RATE_LIMIT)
+  .option('--rate-window <seconds>','rate limit window in seconds',RATE_WINDOW)
   .action( (options) => {
       let registry = [];
 
