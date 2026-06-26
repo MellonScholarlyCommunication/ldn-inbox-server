@@ -59,7 +59,11 @@ npx ldn-inbox-server handler @outbox -hn ./handler/send_notification_handler.js
 - `LDN_SERVER_RATE_LIMIT` : max POST requests per client IP per window (0 or unset = unlimited); fallback when no reverse proxy enforces a limit
 - `LDN_SERVER_RATE_WINDOW` : rate limit window in seconds (default 60)
 - `LDN_SERVER_LOCKDIR` : directory to store optional lock files for handler
-  
+
+## Config file variables
+
+Config files (`*.json`, `*.json5`, `*.yaml`) are interpolated with environment variables when loaded: `${VAR}` is replaced with `process.env.VAR`, and `${VAR:-default}` falls back to `default` when `VAR` is unset or empty. An unset variable with no default is left as the literal `${VAR}`. This lets one set of config files serve multiple deployments — e.g. an actor id `"${WEBID_BOT}"` or a filter value `"${WEBID_BOT:-http://localhost:3002/profile/card#me}"`. JSONPath expressions like `$.origin.id` are untouched (only `${...}` is substituted).
+
 ## Multiple inboxes
 
 Instead of a single inbox, multiple inboxes can be configured by adding a JSON configuration file to the installation. The JSON file should contain a `registry` entry with contains an array of inbox configuration. An example:
